@@ -1,0 +1,32 @@
+<% layout("./boilerplate/boilerplate.ejs") -%>
+
+    <div class="flex flex-col items-center gap-4 p-5 max-w-7xl mx-auto w-screen">
+        <h2 class="font-bold text-2xl md:text-3xl text-center">Shop on <span
+                class="italic text-3xl md:text-4xl text-orange-600">ShopKart</span> </h2>
+        <div class="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2  lg:grid-cols-3 gap-6 justify-items-center">
+            <% for(let product of products) { %>
+                <div class="max-w-sm bg-white shadow-xl/30 rounded-2xl md:mx-8 border-t-6 border-orange-600 my-4 mx-4">
+                    <a href="/product/<%= product._id %>">
+                        <img class="rounded-t-2xl object-cover w-full border-b-1" src="<%= product.image[0].url %>"
+                            alt="<%= product.image[0].filename %>" />
+                    </a>
+                    <div class="p-5 bg-white rounded-b-2xl">
+                        
+                        <a href="/product/<%= product._id %>">
+                            <h5 class="mb-2 pb-2 text-2xl font-bold tracking-tight text-gray-950 dark:text-black">
+                                <%= product.title %> 
+                            </h5>
+                        </a>
+                        <b class="text-4xl text-orange-700">&#8377;<%= product.price.toLocaleString() %></b>
+                    </div>
+                </div>
+                <% } %>
+        </div>
+
+        <a href="http://localhost:8080/product/new">
+            <button
+                class="mx-auto bg-orange-600 font-semibold text-white py-2 px-4  border-transparent rounded hover: cursor-pointer">
+                Add Product
+            </button>
+        </a>
+    </div>

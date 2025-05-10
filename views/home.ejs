@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <h2>Welcome to <em><i> ShopKart</i></em></h2>
+    <form action="http://localhost:8080/" method="post" enctype="multipart/form-data">
+        <div>
+            <label for="userName">Name:</label>
+            <input type="text" name="user[name]" id="userName">
+        </div>
+        <br>
+        <div>
+            <label for="userEmail">Email:</label>
+            <input type="email" name="user[email]" id="userEmail">
+        </div>
+        <br>
+        <div>
+            <label for="userPassword">Password:</label>
+            <input type="password" name="user[password]" id="userPassword">
+        </div>
+        <br>
+        <div>
+            <label for="userRole">Choose a Role:</label>
+
+            <select name="user[role]" id="userRole">
+                <option value="admin">Admin</option>
+                <option value="seller">Seller</option>
+                <option value="buyer">buyer</option>
+            </select>
+        </div>
+        <br>
+        <div>
+            <label for="userImage">Image:</label>
+            <input type="file" name="user[image]" id="userImage">
+        </div>
+        <input type="submit" value="Submit">
+    </form>
+</body>
+
+</html>
