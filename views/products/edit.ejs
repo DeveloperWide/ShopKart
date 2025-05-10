@@ -1,0 +1,119 @@
+<% layout("./boilerplate/boilerplate.ejs") -%>
+<div class="flex flex-col justify-center items-center w-screen mx-auto py-5">
+    <h2 class="py-2 font-bold text-2xl md:text-3xl ">Update Product On <span
+            class="italic text-3xl md:text-4xl text-orange-600">ShopKart</span> </h2>
+    <form action="/product/<%= product._id %>?_method=PUT" method="POST" enctype="multipart/form-data"
+        class="w-80 md:w-96">
+
+        <div class="relative z-0 w-full mb-5 group py-2">
+            <input type="text" name="product[title]" id="productTitle"
+                value="<%= product.title %>"
+                class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-black dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+                placeholder=" " required />
+            <label for="productTitle"
+                class="peer-focus:font-medium absolute text-xl text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Product
+                Title </label>
+        </div>
+        <div class="relative z-0 w-full mb-5 group py-2">
+            <input type="text" name="product[description]" id="productDescription"
+                value="<%= product.description %>"
+                class="block py-2.5 px-0 w-full text-xl text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-black dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+                placeholder=" " required />
+            <label for="productDescription"
+                class="peer-focus:font-medium absolute text-xl text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Product
+                Description </label>
+        </div>
+        <div class="grid md:grid-cols-2 md:gap-6">
+            <div class="relative z-0 w-full mb-5 group">
+                <input type="number" name="product[price]" id="productPrice"
+                    value="<%= product.price %>"
+                    class="block py-2.5 px-0 w-full text-xl text-black bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-black dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+                    placeholder=" " required />
+                <label for="productPrice"
+                    class="peer-focus:font-medium absolute text-xl text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Product
+                    Price</label>
+            </div>
+            <div class="relative z-0 w-full mb-5 group">
+                <input type="number" name="product[stock]" id="productStock"
+                    value="<%= product.stock %>"
+                    class="block py-2.5 px-0 w-full text-xl text-black bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-black dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+                    placeholder=" " required />
+                <label for="productStock"
+                    class="peer-focus:font-medium absolute text-xl text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Product
+                    Stock</label>
+            </div>
+        </div>
+        <div class="relative z-0 w-full mb-5 group py-2">
+            <input type="text" name="product[category]" id="productCategory"
+                value="<%= product.category %>"
+                class="block py-2.5 px-0 w-full text-xl text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-black dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+                placeholder=" " required />
+            <label for="productCategory"
+                class="peer-focus:font-medium absolute text-xl text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Product
+                Category </label>
+        </div>
+
+        <!-- Existing Images -->
+        <div class="mb-4">
+            <p class="font-semibold mb-2">Current Images:</p>
+            <div class="flex flex-wrap gap-2">
+                <% product.image.forEach(image => { %>
+                    <img src="<%= image.url %>" alt="product image" class="w-20 h-20 object-cover rounded border" />
+                <% }) %>
+            </div>
+        </div>
+
+        <!-- New Image Upload -->
+        <div class="relative z-0 w-full mb-5 group py-2">
+            <label for="productImages"
+                class="flex items-center justify-center px-4 py-2 bg-black text-white text-sm font-medium rounded-lg cursor-pointer hover:bg-blue-700 transition duration-300">
+                Upload New Images (Max 5)
+            </label>
+            <input type="file" name="product[images]" id="productImages" class="hidden" multiple accept="image/*" />
+            <p id="file-chosen" class="mt-2 text-sm text-gray-900 font-bold dark:text-gray-400">No files chosen</p>
+            <div id="preview" class="flex flex-wrap mt-4 gap-2"></div>
+        </div>
+
+        <button type="submit"
+            class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Update Product</button>
+    </form>
+
+</div>
+
+<script>
+    const input = document.getElementById('productImages');
+    const fileChosen = document.getElementById('file-chosen');
+    const preview = document.getElementById('preview');
+    const maxFiles = 5;
+
+    input.addEventListener('change', function () {
+        preview.innerHTML = '';
+
+        if (this.files.length > maxFiles) {
+            alert(`You can upload maximum ${maxFiles} images.`);
+            this.value = '';
+            fileChosen.textContent = "No files chosen";
+            return;
+        }
+
+        if (this.files.length === 0) {
+            fileChosen.textContent = "No files chosen";
+            return;
+        }
+
+        fileChosen.textContent = `${this.files.length} file(s) selected`;
+
+        Array.from(this.files).forEach(file => {
+            if (!file.type.startsWith('image/')) return;
+
+            const reader = new FileReader();
+            reader.onload = e => {
+                const img = document.createElement('img');
+                img.src = e.target.result;
+                img.className = "w-20 h-20 object-cover rounded border";
+                preview.appendChild(img);
+            };
+            reader.readAsDataURL(file);
+        });
+    });
+</script>

@@ -1,16 +1,19 @@
-    const productImg = document.querySelector(".productImg");
-    const images = document.querySelectorAll(".isCheck");
-    
-    if(images){
-        images.forEach(image => {
+const productImg = document.querySelector(".productImg");
+const images = document.querySelectorAll(".isCheck");
+
+
+
+if (images) {
+    images.forEach(image => {
         image.addEventListener("click", () => {
             productImg.src = image.src;
         });
     });
-    }
+}
 
-
-function getRandomDateNext2Months() {
+const shippingDate = document.querySelectorAll(".shippingDate");
+if(shippingDate){
+    function getRandomDateNext2Months() {
     const today = new Date();
 
     // Randomly add 0, 1, or 2 months
@@ -28,6 +31,8 @@ function getRandomDateNext2Months() {
 
     return `${day} ${monthName}`;
 }
+ for(let shippingDateProduct of shippingDate){
+    shippingDateProduct.innerText += `Get it by ${getRandomDateNext2Months()}`
+ }
+}
 
-// Example usage
-console.log(getRandomDateNext2Months());
