@@ -1,4 +1,7 @@
 const User = require("../models/User");
+const { userSchema } = require("../schema");
+const ExpressError = require("../utility/ExpressError")
+const asyncWrap = require("../utility/wrapAsync")
 
 module.exports.renderRegisterForm = async (req, res) => {
     res.render("user/register.ejs")
@@ -6,42 +9,50 @@ module.exports.renderRegisterForm = async (req, res) => {
 
 module.exports.registerUser = async (req, res) => {
     try {
-        let { user } = req.body;
-        user.image = {
-            filename: req.file.filename,
-            url: req.file.path
-        };
-        let newUser = new User({ ...user });  // password auto-hashed via pre-save hook
-        let savedUser = await newUser.save();
+        const { username, name, email, password, role } = req.body.user;
 
-        // Now after user is saved, start session
-        req.session.user = savedUser._id;
+        // Check if user already exists
+        const existingUser = await User.findOne({ username });
+        if (existingUser) {
+            return res.redirect('/user/register');
+        }
 
-        console.log(savedUser);
-        return res.redirect("/user/register");
+        // Prepare new user object
+        const newUser = new User({ username, name, email, password, role });
+
+        // If image is uploaded
+        if (req.file) {
+            newUser.image = {
+                filename: req.file.filename,
+                url: req.file.path
+            };
+        }
+
+        let svdUser = await newUser.save();
+        req.session.user = svdUser;
+        return res.redirect('/user/login');
     } catch (err) {
-        console.log(err);
-        return res.status(500).send("Error while saving user");
+        console.error(err);
+        return res.status(500).send('Error while saving user');
     }
-}
+};
 
 module.exports.renderLoginForm = async (req, res) => {
     res.render("user/login.ejs")
 }
 
 module.exports.loginUser = async (req, res) => {
-    let { password, email } = req.body.user;
-    let user = await User.findOne({ email: email });
-
+    let { password, username} = req.body.user;
+    let user = await User.findOne({ username: username });
     let isValid = await user.validatePassword(password);
-
     if (isValid) {
-        req.session.user = user._id;
-        res.redirect("/user/register");
-    } else {
-        res.redirect("/user/login")
-    }
-
+        req.session.user = user;
+        req.flash("success" , "User Successfully Saved")
+        return res.redirect("/user/register");
+    } 
+    req.flash("error" , "Error while Saving User")
+    console.log(req.session.user)
+    return res.redirect("/user/login");
 }
 
 module.exports.logout = (req, res) => {

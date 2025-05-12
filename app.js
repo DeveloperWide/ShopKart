@@ -9,6 +9,8 @@ const mongoose = require("mongoose");
 const ejsMate = require('ejs-mate');
 const methodOverride = require("method-override")
 const session = require("express-session")
+const flash = require("connect-flash")
+
 
 let sessionOptions = {
     secret: "dafsdfasdfasd",
@@ -20,10 +22,12 @@ let sessionOptions = {
 }
 
 app.use(session(sessionOptions))
-
+app.use(flash())
 // Routes
 const userRoutes = require("./routes/users")
-const productRoutes = require("./routes/product")
+const productRoutes = require("./routes/product");
+const ExpressError = require("./utility/ExpressError");
+
 
 // use ejs-locals for all ejs templates:
 app.engine('ejs', ejsMate);
@@ -45,7 +49,12 @@ async function main() {
 
 
 app.use(methodOverride("_method"))
-
+app.use((req, res, next) => {
+   res.locals.currUser = req.session.user;
+   res.locals.error = req.flash("error");
+   res.locals.success = req.flash("success");
+   next();
+})
 // Server static files
 app.use(express.static(path.join(__dirname, "/public/")))
 
@@ -56,6 +65,14 @@ app.use(express.json())
 app.use("/", productRoutes)
 app.use("/user/", userRoutes)
 
+app.use((req, res, next) => {
+    next(new ExpressError("Page Not Found" ,404))
+})
+
+app.use((err, req, res, next) => {
+    let {message = "Error Ocurred" , statusCode=500} = err;
+    res.status(statusCode).render("error.ejs" , {message})
+})
 
 app.listen(8080, () => {
     console.log(`Server is listing on PORT ${8080}`)

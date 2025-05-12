@@ -3,6 +3,11 @@ const { Schema, model } = mongoose;
 const bcrypt = require("bcrypt");
 
 const userSchema = new Schema({
+    username: {
+        type: String,
+        required: true,
+        unique: true
+    },
     name: {
         type: String,
         required: true
@@ -10,7 +15,7 @@ const userSchema = new Schema({
 
     email: {
         type: String,
-        required: true
+        required: true,
     },
 
     password: {
@@ -21,7 +26,6 @@ const userSchema = new Schema({
     role: {
         type: String,
         enum: ['admin', 'seller', 'buyer'],
-        default: "buyer"
     },
 
     image: {

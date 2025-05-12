@@ -43,6 +43,9 @@
                 </div>
             </div>
             <b class="text-4xl text-gray-700 px-4">&#8377;<%= product.price.toLocaleString() %></b>
+            <% if(product.stock < 10) {%>
+            <p class="ms-5 mt-3 text-orange-600">Only <%= product.stock %> items left in the Stock</p>
+            <% } %>
             <p class="pt-5 text-xl px-4">
                 <%= product.description %>
             </p>
