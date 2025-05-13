@@ -24,8 +24,12 @@ const productSchema = new Schema({
     category: {
         type: String,
     },
+    owner: {
+        type: Schema.Types.ObjectId,
+        ref: "User"
+    }
 });
 
-const Product = model("Product" , productSchema);
+const Product = model("Product", productSchema);
 
 module.exports = Product;

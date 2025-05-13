@@ -1,4 +1,5 @@
 const Product = require("../models/Product");
+const { User } = require("../models/User");
 const products = require("./data")
 const mongoose = require("mongoose");
 
@@ -12,9 +13,31 @@ async function main() {
 }
 
 async function addData() {
-  await Product.deleteMany({});
-  let allProducts = await Product.insertMany(products.products);
-  console.log(allProducts);
+  try {
+    let id = '68222d52ce142d6f91d53d19'; // User ID
+    let user = await User.findById(id); // Find the user by ID
+    if (!user) {
+      console.log("User not found!");
+      return;
+    }
+
+    let products = await Product.find({}); // Get all products
+
+    // Get all product IDs
+    let alProIds = products.map((obj) => obj._id.toString());
+
+    // Ensure we don't have duplicate product IDs in user.products
+    let uniqueProductIds = [...new Set([...user.products, ...alProIds])];
+
+    // Update user's products
+    user.products = uniqueProductIds;
+
+    let svdUser = await user.save(); // Save updated user document
+    console.log("User updated:", svdUser);
+
+  } catch (err) {
+    console.error("Error updating user data:", err);
+  }
 }
 
-addData()
+addData();

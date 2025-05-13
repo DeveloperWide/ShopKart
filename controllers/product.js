@@ -1,10 +1,12 @@
 const cloudinary = require('cloudinary').v2;
 const Product = require("../models/Product");
+const { User, Seller } = require('../models/User.js');
 const ExpressError = require("../utility/ExpressError")
 const { asyncWrapper } = require("../utility/wrapAsync.js")
 
 module.exports.allProducts = asyncWrapper(async (req, res) => {
-    let products = await Product.find();
+    let products = await Product.find().populate("owner");
+    console.log(req.session.user)
     res.render("products/index.ejs", { products })
 }
 )
@@ -15,6 +17,7 @@ module.exports.renderNewProductForm = async (req, res) => {
 module.exports.createProduct = asyncWrapper(
     async (req, res) => {
         let { product } = req.body;
+        let id = req.session.user._id;
 
         // Step 1: Validate that images are uploaded
         if (!req.files || req.files.length === 0) {
@@ -35,15 +38,19 @@ module.exports.createProduct = asyncWrapper(
             image: req.files.map((file) => ({
                 filename: file.filename,
                 url: file.path
-            }))
+            })),
+            owner: id
         });
-
         // Step 4: Save to DB
         let productRes = await newProduct.save();
         if (!productRes) {
             req.flash("error", "Product could not be saved in Database");
             return res.redirect("/product/new");
         }
+        let objectId = productRes._id
+        let seller = await Seller.findByIdAndUpdate(id, {
+            products: [objectId]
+        })
 
         req.flash("success", "Product Created Successfully");
         return res.redirect("/product");
@@ -52,7 +59,7 @@ module.exports.createProduct = asyncWrapper(
 
 module.exports.showProduct = async (req, res, next) => {
     let { id } = req.params;
-    let product = await Product.findById(id);
+    let product = await Product.findById(id).populate("owner");
 
     if (!product) {
         next(new ExpressError("Product Not Found", 404))

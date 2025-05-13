@@ -26,6 +26,7 @@ app.use(flash())
 // Routes
 const userRoutes = require("./routes/users")
 const productRoutes = require("./routes/product");
+const adminRoutes = require("./routes/admin");
 const ExpressError = require("./utility/ExpressError");
 
 
@@ -63,6 +64,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json())
 
 app.use("/", productRoutes)
+app.use("/", adminRoutes)
 app.use("/user/", userRoutes)
 
 app.use((req, res, next) => {

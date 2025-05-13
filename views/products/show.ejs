@@ -9,51 +9,57 @@
                 <h3 class="font-bold text-2xl pb-5">
                     <%= product.title %>
                 </h3>
-                <div class="flex justify-end px-4 pt-4">
-                    <button id="dropdownButton" data-dropdown-toggle="dropdown"
-                        class="inline-block text-gray-500 dark:hover:text-dark hover:bg-black-400 dark:hover:bg-gray-200 rounded-4xl text-sm p-1.5"
-                        type="button">
-                        <span class="sr-only">Open dropdown</span>
-                        <svg class="w-7 h-7 rotate-90" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
-                            fill="currentColor" viewBox="0 0 16 3">
-                            <path
-                                d="M2 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3Zm6.041 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM14 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3Z" />
-                        </svg>
-                    </button>
-                    <!-- Dropdown menu -->
-                    <div id="dropdown"
-                        class="z-10 hidden text-base list-none bg-white divide-y divide-gray-100 rounded-lg shadow-sm w-44 dark:bg-gray-700 shadow-2xl">
-                        <ul class="py-2" aria-labelledby="dropdownButton">
-                            <li
-                                class="flex justify-start ps-2 items-center hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">
-                                <i class="fa-solid fa-pen-to-square"></i>
-                                <a href="/product/<%= product._id %>/edit"
-                                    class="block px-4 py-2 text-sm text-gray-700 text-white font-bold">Edit Product</a>
-                            </li>
-                            <li
-                                class="flex justify-start ps-2 items-center hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white  ">
-                                <i class="fa-solid fa-trash text-red-500"></i>
-                                <form action="/product/<%= product._id %>?_method=DELETE" method="post">
-                                    <button type="submit" class="block px-4 py-2 text-sm text-red-500 font-bold">Delete
-                                        Product</button>
-                                </form>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
+                <% if(currUser && currUser !== null) {%>
+                    <% if(String(currUser._id)===String(product.owner._id)) {%>
+                        <div class="flex justify-end px-4 pt-4">
+                            <button id="dropdownButton" data-dropdown-toggle="dropdown"
+                                class="inline-block text-gray-500 dark:hover:text-dark hover:bg-black-400 dark:hover:bg-gray-200 rounded-4xl text-sm p-1.5"
+                                type="button">
+                                <span class="sr-only">Open dropdown</span>
+                                <svg class="w-7 h-7 rotate-90" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
+                                    fill="currentColor" viewBox="0 0 16 3">
+                                    <path
+                                        d="M2 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3Zm6.041 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM14 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3Z" />
+                                </svg>
+                            </button>
+                            <!-- Dropdown menu -->
+                            <div id="dropdown"
+                                class="z-10 hidden text-base list-none bg-white divide-y divide-gray-100 rounded-lg shadow-sm w-44 dark:bg-gray-700 shadow-2xl">
+                                <ul class="py-2" aria-labelledby="dropdownButton">
+                                    <li
+                                        class="flex justify-start ps-2 items-center hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">
+                                        <i class="fa-solid fa-pen-to-square"></i>
+                                        <a href="/product/<%= product._id %>/edit"
+                                            class="block px-4 py-2 text-sm text-gray-700 text-white font-bold">Edit
+                                            Product</a>
+                                    </li>
+                                    <li
+                                        class="flex justify-start ps-2 items-center hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white  ">
+                                        <i class="fa-solid fa-trash text-red-500"></i>
+                                        <form action="/product/<%= product._id %>?_method=DELETE" method="post">
+                                            <button type="submit"
+                                                class="block px-4 py-2 text-sm text-red-500 font-bold">Delete
+                                                Product</button>
+                                        </form>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                        <% }%>
+                            <% } %>
             </div>
             <b class="text-4xl text-gray-700 px-4">&#8377;<%= product.price.toLocaleString() %></b>
             <% if(product.stock < 10) {%>
-            <p class="ms-5 mt-3 text-orange-600">Only <%= product.stock %> items left in the Stock</p>
-            <% } %>
-            <p class="pt-5 text-xl px-4">
-                <%= product.description %>
-            </p>
-            <div class="flex gap-2 flex-wrap px-4 py-6">
-                <% for(let image of product.image) { %>
-                    <img src="<%= image.url %>" alt="<%= product.title %>"
-                        class="isCheck h-20 border border-black rounded-2xl cursor-pointer">
-                    <% } %>
-            </div>
+                <p class="ms-5 mt-3 text-orange-600">Only <%= product.stock %> items left in the Stock</p>
+                <% } %>
+                    <p class="pt-5 text-xl px-4">
+                        <%= product.description %>
+                    </p>
+                    <div class="flex gap-2 flex-wrap px-4 py-6">
+                        <% for(let image of product.image) { %>
+                            <img src="<%= image.url %>" alt="<%= product.title %>"
+                                class="isCheck h-20 border border-black rounded-2xl cursor-pointer">
+                            <% } %>
+                    </div>
         </div>
     </div>

@@ -1,0 +1,38 @@
+<% layout("./boilerplate/boilerplate.ejs") -%>
+
+  <div class="flex min-h-screen w-screen">
+    <!-- Sidebar -->
+    <div class="w-80 flex flex-col items-center bg-gray-100 p-5">
+      <div class="mb-10 text-center">
+        <img src="<%= user.image.url %>" alt="<%= user.name %>"
+          class="w-40 h-40 border-4 border-green-400 m-4 rounded-full object-cover">
+        <p class="font-bold text-sm text-green-600">
+          <%= user.role.toUpperCase() %>
+        </p>
+        <h2 class="text-2xl text-gray-700">
+          <%= user.name %>
+        </h2>
+      </div>
+
+      <div class="w-full space-y-2">
+        <a href="#" class="block w-full bg-gray-200 hover:bg-gray-300 transition p-4 rounded">View and manage all
+          orders</a>
+        <a href="#" class="block w-full bg-gray-200 hover:bg-gray-300 transition p-4 rounded">Manage customers</a>
+        <a href="#" class="block w-full bg-gray-200 hover:bg-gray-300 transition p-4 rounded">Manage discount
+          coupons</a>
+      </div>
+    </div>
+
+    <!-- Vertical Divider -->
+    <div class="h-auto w-px bg-gray-400"></div>
+
+    <!-- Main Content -->
+    <div class="flex-1 p-10 h-screen overflow-y-auto">
+      <h1 class="text-3xl font-bold text-gray-800">Welcome, <%= user.name %>!</h1>
+      <p class="mt-4 text-gray-600">Select an option from the sidebar to manage your shop.</p>
+      <br>
+      <hr class="h-px w-full bg-gray-400 border-0 ">
+
+
+    </div>
+  </div>
