@@ -8,9 +8,7 @@ module.exports.renderRegisterForm = async (req, res) => {
 
 module.exports.registerUser = asyncWrapper(async (req, res, next) => {
     const { username, name, email, password, role } = req.body.user;
-    console.log(req.body.user)
     let userData = { username, name, email, password, role };
-    console.log(userData)
     // If image is uploaded
     if (req.file) {
         userData.image = {
@@ -28,7 +26,6 @@ module.exports.registerUser = asyncWrapper(async (req, res, next) => {
     } else {
         user = new User(userData);
     }
-    console.log(user)
     await user.save();
     req.session.user = user;
     req.flash("success", `${name} registered successfully!`);
@@ -47,7 +44,6 @@ module.exports.loginUser = async (req, res) => {
         req.session.user = user;
         req.flash("success", "User Successfully Saved")
         let redirectUrl = res.locals.redirectUrl || "/product";
-        console.log(req.session.user)
         return res.redirect(redirectUrl);
     }
     req.flash("error", "Error while Saving User")

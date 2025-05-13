@@ -1,4 +1,16 @@
 const Product = require("../models/Product");
+const { User } = require("../models/User");
+const { productSchema } = require("../schema");
+
+module.exports.validateProduct = (req, res, next) => {
+    let { error } = productSchema.validate(req.body)
+    if (error) {
+        req.flash("error", error.details[0].message);
+        return;
+    }
+    return next();
+}
+
 
 module.exports.isSeller = (req, res, next) => {
     let currUser = req.session.user;
@@ -33,8 +45,19 @@ module.exports.isOwner = async (req, res, next) => {
     let currUser = req.session.user;
     if(String(product.owner._id) !== String(currUser._id)){
         req.flash("error", "You are not the Owner of the Product");
-        return res.redirect(`/product/${id}`);
+        let redirect = `/product/${id}`;
+        return res.redirect(redirect);
     }
     return next();
+}
 
+module.exports.isAdmin = async (req, res, next) => {
+    let {username} = req.params;
+    let user = await User.findOne({username: username});
+    let currUser = req.session.user;
+    if(String(currUser._id) !== String(user._id)){
+        req.flash("error", "You're Not Admin of that Profile");
+        return res.redirect(`/admin/${currUser.username}`);
+    };
+    return next();
 }

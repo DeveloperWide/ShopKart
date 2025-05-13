@@ -34,7 +34,6 @@ async function addData() {
 
     let svdUser = await user.save(); // Save updated user document
     console.log("User updated:", svdUser);
-
   } catch (err) {
     console.error("Error updating user data:", err);
   }

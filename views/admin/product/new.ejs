@@ -2,7 +2,7 @@
     <div class="flex flex-col justify-center items-center w-screen mx-auto py-5">
         <h2 class="py-2 font-bold text-2xl md:text-3xl ">Add More Products On <span
                 class="italic text-3xl md:text-4xl text-orange-600">ShopKart</span> </h2>
-        <form action="/product" method="post" enctype="multipart/form-data"
+        <form action="/admin/<%= currUser.username %>/products" method="post" enctype="multipart/form-data"
             class="w-80 md:w-96">
 
             <div class="relative z-0 w-full mb-5 group py-2">

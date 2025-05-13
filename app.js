@@ -63,8 +63,8 @@ app.use(express.static(path.join(__dirname, "/public/")))
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json())
 
-app.use("/", productRoutes)
-app.use("/", adminRoutes)
+app.use("/product/", productRoutes)
+app.use("/admin/", adminRoutes)
 app.use("/user/", userRoutes)
 
 app.use((req, res, next) => {
