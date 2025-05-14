@@ -48,17 +48,17 @@
                 </li>
             </ul>
            <% if(currUser) {%>
-             <form class="py-2" action="/user/logout" method="post">
+             <form class="py-2" action="/api/auth/logout" method="post">
                 <button type="submit"
                     class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Sign Out</button>
             </form>
             <% } %>
             <% if(!currUser) {%>
             <div class="py-2">
-                <a href="/user/register"
+                <a href="/api/auth/register"
                     class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Sign In</a>
             </div><div class="py-2">
-                <a href="/user/login"
+                <a href="/api/auth/login"
                     class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Log In</a>
             </div>
             <% } %>
@@ -140,7 +140,7 @@
                         <% } %>
                             <% if(currUser) {%>
                                 <div class="py-2">
-                                    <form action="/user/logout" method="post"
+                                    <form action="/api/auth/logout" method="post"
                                         class="block px-4 py-2 text-sm text-gray-700 :hoverbg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">
                                         <input type="submit" value="Sign out">
                                     </form>
@@ -150,11 +150,11 @@
 
                                     <% if(!currUser) {%>
                                         <div class="py-2">
-                                            <form action="/user/register" method="get"
+                                            <form action="/api/auth/register" method="get"
                                                 class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">
                                                 <input type="submit" value="Sign in">
                                             </form>
-                                            <form action="/user/login" method="get"
+                                            <form action="/api/auth/login" method="get"
                                                 class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">
                                                 <input type="submit" value="Log in">
                                             </form>

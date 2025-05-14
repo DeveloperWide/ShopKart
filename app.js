@@ -10,9 +10,13 @@ const ejsMate = require('ejs-mate');
 const methodOverride = require("method-override")
 const session = require("express-session")
 const flash = require("connect-flash")
-
+const MongoStore = require("connect-mongo")
+const dbUrl = `mongodb://127.0.0.1:27017/shopkart`;
 
 let sessionOptions = {
+    store: MongoStore.create({
+        mongoUrl: dbUrl,
+    }),
     secret: "dafsdfasdfasd",
     resave: false,
     saveUninitialized: true,
@@ -24,7 +28,8 @@ let sessionOptions = {
 app.use(session(sessionOptions))
 app.use(flash())
 // Routes
-const userRoutes = require("./routes/users")
+const userAuthRoutes = require("./routes/userAuth")
+const userAccountRoutes = require("./routes/userAccount")
 const productRoutes = require("./routes/product");
 const adminRoutes = require("./routes/admin");
 const ExpressError = require("./utility/ExpressError");
@@ -45,7 +50,7 @@ main().then(() => {
 }).catch(err => console.log(err));
 
 async function main() {
-    await mongoose.connect('mongodb://127.0.0.1:27017/shopkart');
+    await mongoose.connect(dbUrl);
 }
 
 
@@ -65,7 +70,10 @@ app.use(express.json())
 
 app.use("/product/", productRoutes)
 app.use("/admin/", adminRoutes)
-app.use("/user/", userRoutes)
+// User auth
+app.use("/api/auth/", userAuthRoutes);
+// User Account
+app.use("/api/user/", userAccountRoutes)
 
 app.use((req, res, next) => {
     next(new ExpressError("Page Not Found" ,404))

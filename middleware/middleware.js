@@ -1,6 +1,6 @@
 const Product = require("../models/Product");
 const { User } = require("../models/User");
-const { productSchema } = require("../schema");
+const { productSchema, userSchema } = require("../schema");
 
 module.exports.validateProduct = (req, res, next) => {
     let { error } = productSchema.validate(req.body)
@@ -8,6 +8,15 @@ module.exports.validateProduct = (req, res, next) => {
         req.flash("error", error.details[0].message);
         return;
     }
+    return next();
+}
+
+module.exports.validateUser = (req, res, next) => {
+    let {error} = userSchema.validate(req.body)
+    if(error){
+        req.flash("error" , error.details[0].message);
+        return res.redirect("/user/register");
+    };
     return next();
 }
 

@@ -1,0 +1,64 @@
+<% layout("./boilerplate/boilerplate.ejs") -%>
+    <div class="flex flex-col justify-center items-center w-screen mx-auto py-5">
+        <h2 class="py-2 font-bold text-2xl md:text-3xl ">Update User On <span
+                class="italic text-3xl md:text-4xl text-orange-600">ShopKart</span> </h2>
+        <form action="/api/user/profile" method="POST" enctype="multipart/form-data" class="w-80 md:w-96 py-4" novalidate>
+
+            <div class="relative z-0 w-full mb-5 group py-2">
+                <input type="text" name="user[name]" id="userName" value="<%= user.name %>"
+                    class="block py-2 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-black dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer invalid:[&:not(:placeholder-shown):not(:focus)]:border-red-500"
+                    placeholder=" " required />
+                <label for="userName"
+                    class="peer-focus:font-medium absolute text-xl text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">User's
+                    Name </label>
+            </div>
+           <div class="relative z-0 w-full mb-5 group py-2">
+                <input type="text" name="user[username]" id="userUsername" value="<%= user.username %>"
+                    class="block py-2 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-black dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer invalid:[&:not(:placeholder-shown):not(:focus)]:border-red-500"
+                    placeholder=" " required />
+                <label for="userUsername"
+                    class="peer-focus:font-medium absolute text-xl text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">User's
+                    username </label>
+            </div>
+            <div class="relative z-0 w-full mb-5 group py-2">
+                <input type="text" name="user[email]" id="userEmail" value="<%= user.email %>"
+                    class="block py-2 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-black dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer invalid:[&:not(:placeholder-shown):not(:focus)]:border-red-500"
+                    placeholder=" " required />
+                <label for="userEmail"
+                    class="peer-focus:font-medium absolute text-xl text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">User's
+                    Email </label>
+
+            <!-- Existing Images -->
+            <div class="mb-4">
+                <p class="font-semibold mb-2">Current Images:</p>
+                <div class="flex flex-wrap gap-2">
+                    <img src="<%= user.image.url %>" alt="User image" class="w-20 h-20 object-cover rounded border" />
+                </div>
+            </div>
+
+            <!-- New Image Upload -->
+            <div class="relative z-0 w-full mb-5 group py-2">
+                <label for="userImage"
+                    class="flex items-center justify-center px-4 py-2 bg-black text-white text-sm font-medium rounded-lg cursor-pointer hover:bg-blue-700 transition duration-300 invalid:[&:not(:placeholder-shown):not(:focus)]:border-red-500">
+                    Upload New Image
+                </label>
+                <input type="file" name="user[image]" id="userImage" class="hidden" required />
+                <p id="file-chosen" class="mt-2 text-sm text-gray-900 font-bold dark:text-gray-400">No file chosen</p>
+            </div>
+
+            <button type="submit"
+                class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 group-invalid:pointer-events-none group-invalid:opacity-30">Update
+                User</button>
+        </form>
+
+    </div>
+
+    
+    <script>
+        const input = document.getElementById('userImage');
+        const fileChosen = document.getElementById('file-chosen');
+
+        input.addEventListener('change', function () {
+            fileChosen.textContent = this.files[0]?.name || "No file chosen";
+        });
+    </script>

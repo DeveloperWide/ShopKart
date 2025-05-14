@@ -29,6 +29,15 @@ router.put("/:username/products/:id", isLoggedIn, isSeller, isOwner, upload.arra
 
 //Show categories
 
+/* 
+TASKS: 
+
+1.) Add layer of middleware here 
+2.) Change user with currUser in these ejs files 
+
+*/
+
+
 router.get("/:username/categories",  async(req, res) => {
     let {username} = req.params;
     let user = await User.findOne({username: username}).populate("products");

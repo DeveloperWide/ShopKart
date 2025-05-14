@@ -1,0 +1,80 @@
+<% layout("./boilerplate/boilerplate.ejs") -%>
+
+    <div class="min-h-screen w-full bg-gray-50 p-4 grid grid-cols-1 sm:grid-cols-5 gap-6">
+        <!-- User Profile & Sidebar (Top on small screens, Left on large screens) -->
+        <aside
+            class="sm:col-span-1 bg-white shadow-md rounded-lg p-6 flex flex-col items-center sm:items-stretch sm:h-screen border">
+            <!-- User Info -->
+            <div class="text-center sm:text-left mb-6 sm:mb-10">
+                <img src="<%= user.image.url %>" alt="<%= user.name %>"
+                    class="w-28 h-28 sm:w-32 sm:h-32 rounded-full border-4 border-green-400 object-cover mx-auto sm:mx-0 mb-4">
+                <p class="text-green-600 font-semibold text-xs tracking-wide uppercase sm:text-sm">
+                    <%= user.role %>
+                </p>
+                <h2 class="text-xl sm:text-2xl font-bold text-gray-800">
+                    <%= user.name %>
+                </h2>
+            </div>
+
+            <!-- Sidebar Links -->
+            <nav class="w-full flex flex-col space-y-3 mt-2">
+                <a href="#"
+                    class="bg-green-100 hover:bg-green-200 text-green-800 text-center py-2 rounded-md font-medium transition-all">Manage
+                    Orders</a>
+                <a href="#"
+                    class="bg-blue-100 hover:bg-blue-200 text-blue-800 text-center py-2 rounded-md font-medium transition-all">Customers</a>
+                <a href="#"
+                    class="bg-yellow-100 hover:bg-yellow-200 text-yellow-800 text-center py-2 rounded-md font-medium transition-all">Discount
+                    Coupons</a>
+            </nav>
+        </aside>
+
+        <!-- Main Content (Product Table) -->
+        <main class="sm:col-span-4 overflow-y-auto">
+            <div class="mb-6 flex justify-between flex-wrap m-5 ">
+                <div>
+                    <h1 class="text-2xl sm:text-3xl font-bold text-gray-800">Welcome, <%= user.name %>!</h1>
+                    <p class="text-gray-600 mt-2">Manage Your Orders here...</p>
+                </div>
+                <div class="mt-10 ms-2 sm:m-5">
+                    <a href="/api/user/profile/edit" class="p-3 text-sm sm:p-4 sm:text-xl rounded-full font-bold bg-green-300 text-black shadow-xl/40">Update Profile</a>
+                </div>
+            </div>
+
+            <!-- Product Table -->
+            <div class="overflow-x-auto bg-white rounded-lg shadow p-4">
+                <table class="w-full text-center table-auto border-collapse">
+                    <thead class="bg-gray-200 text-gray-700 uppercase text-sm">
+                        <tr>
+                            <th class="px-4 py-3">Product</th>
+                            <th class="px-4 py-3">Title</th>
+                            <th class="px-4 py-3">Price</th>
+                            <th class="px-4 py-3">Cancel Item</th>
+                        </tr>
+                    </thead>
+                    <tbody class="text-gray-700">
+                        <% for(let product of user.products) { %>
+                            <tr class="border-t hover:bg-gray-50">
+                                <td class="px-4 py-3">
+                                    <img src="<%= product.image[0].url %>" alt="<%= product.title %>"
+                                        class="h-16 w-16 object-cover rounded shadow">
+                                </td>
+                                <td class="px-4 py-3">
+                                    <%= product.title %>
+                                </td>
+                                <td class="px-4 py-3 font-medium text-green-600">₹<%= product.price %>
+                                </td>
+                                <td class="px-4 py-3">
+                                    <form action="/product/<%= product._id %>?_method=DELETE" method="post">
+                                        <button type="submit"
+                                            class="bg-red-100 hover:bg-red-200 text-red-600 font-semibold py-1 px-4 rounded">Cancel
+                                            Item</button>
+                                    </form>
+                                </td>
+                            </tr>
+                            <% } %>
+                    </tbody>
+                </table>
+            </div>
+        </main>
+    </div>

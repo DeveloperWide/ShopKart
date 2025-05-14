@@ -3,18 +3,8 @@ const router = express.Router();
 const multer = require("multer")
 const { storage } = require("../cloudConfig");
 const upload = multer({ storage });
-const controllers = require("../controllers/user"); 
-const { userSchema } = require("../schema");
-const { redirectUrl } = require("../middleware/middleware");
-
-let validateUser = (req, res, next) => {
-    let {error} = userSchema.validate(req.body)
-    if(error){
-        req.flash("error" , error.details[0].message);
-        return res.redirect("/user/register");
-    };
-    return next();
-}
+const controllers = require("../controllers/userAuth"); 
+const { validateUser, redirectUrl } = require("../middleware/middleware");
 
 
 /* 
