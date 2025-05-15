@@ -68,7 +68,12 @@ app.use(express.static(path.join(__dirname, "/public/")))
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json())
 
-app.use("/product/", productRoutes)
+app.get("/" , (req, res) => {
+    res.redirect("/api/products")
+})
+
+
+app.use("/api/products/", productRoutes)
 app.use("/admin/", adminRoutes)
 // User auth
 app.use("/api/auth/", userAuthRoutes);

@@ -50,7 +50,7 @@
         <div class="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2  lg:grid-cols-3 gap-6 justify-items-center">
             <% for(let product of products) { %>
                 <div class="productCard w-full bg-white shadow-xl/30 rounded-2xl md:mx-8 border-t-6 border-orange-600 my-4 mx-4">
-                    <a href="/product/<%= product._id %>">
+                    <a href="/api/products/<%= product._id %>">
                         <img class="rounded-t-2xl object-cover w-full border-b-1" src="<%= product.image[0].url %>"
                             alt="<%= product.image[0].filename %>" />
                     </a>

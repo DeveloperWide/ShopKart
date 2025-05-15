@@ -53,9 +53,9 @@ module.exports.createNewProduct = asyncWrapper(async (req, res) => {
         return res.redirect("/product/new");
     }
     let objectId = productRes._id
-    let seller = await Seller.findByIdAndUpdate(id, {
-        products: [objectId]
-    })
+    let seller = await Seller.findById(id);
+    seller.products.push(objectId);
+    await seller.save();
 
     req.flash("success", "Product Created Successfully");
     return res.redirect(`/admin/${username}/products`);

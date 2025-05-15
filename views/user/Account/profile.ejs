@@ -36,8 +36,43 @@
                     <h1 class="text-2xl sm:text-3xl font-bold text-gray-800">Welcome, <%= user.name %>!</h1>
                     <p class="text-gray-600 mt-2">Manage Your Orders here...</p>
                 </div>
-                <div class="mt-10 ms-2 sm:m-5">
-                    <a href="/api/user/profile/edit" class="p-3 text-sm sm:p-4 sm:text-xl rounded-full font-bold bg-green-300 text-black shadow-xl/40">Update Profile</a>
+                <div class="flex justify-end px-4 pt-4">
+                    <button id="dropdownButton" data-dropdown-toggle="dropdown"
+                        class="inline-block text-gray-500 dark:hover:text-dark hover:bg-black-400 dark:hover:bg-gray-200 rounded-4xl text-sm p-1.5"
+                        type="button">
+                        <span class="sr-only">Open dropdown</span>
+                        <svg class="w-5 h-5 rotate-90" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
+                            fill="currentColor" viewBox="0 0 16 3">
+                            <path
+                                d="M2 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3Zm6.041 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM14 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3Z" />
+                        </svg>
+                    </button>
+                    <!-- Dropdown menu -->
+                    <div id="dropdown"
+                        class="z-10 hidden text-base list-none bg-white divide-y divide-gray-100 rounded-lg shadow-sm w-44 dark:bg-gray-700 shadow-2xl">
+                        <ul class="py-2" aria-labelledby="dropdownButton">
+                            <li
+                                class="flex justify-start ps-2 items-center hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">
+                                <i class="fa-solid fa-pen-to-square"></i>
+                                <a href="/api/user/profile/edit"
+                                    class="block px-4 py-2 text-sm text-gray-700 text-white font-bold">Edit
+                                    Profile</a>
+                            </li>
+                            <li
+                                class="flex justify-start ps-2 items-center hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white  ">
+                                <i class="fa-solid fa-rotate"></i>
+                                <form action="/api/user/profile/change-password" method="get">
+                                    <button type="submit" class="block px-4 py-2 text-sm text-white font-bold cursor-pointer">Change
+                                        Password</button>
+                                </form>
+                            </li>
+                            <li class="flex justify-start ps-2 items-center hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">
+                                <form action="/api/user/profile/forgot-password" method="post" class="flex items-center">
+                                    <i class="fa-solid fa-unlock text-white"></i>
+                                    <button type="submit" class="block px-4 py-2 text-sm text-white font-bold cursor-pointer">Forget Password</button></form>
+                            </li>
+                        </ul>
+                    </div>
                 </div>
             </div>
 
