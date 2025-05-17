@@ -1,0 +1,69 @@
+<% layout("./boilerplate/boilerplate.ejs") -%>
+
+<div class="container mx-auto p-4">
+    <!-- Top Actions Row -->
+    <div class="flex flex-col sm:flex-row justify-between items-center w-full mb-6 gap-4">
+
+        <!-- Clear Cart Button -->
+        <form action="/api/cart/clear?_method=DELETE" method="POST">
+            <button type="submit"
+                class="w-36 h-10 bg-orange-500 text-white font-semibold rounded hover:bg-orange-600 transition-all">
+                Clear Cart
+            </button>
+        </form>
+
+        <!-- Subtotal and Proceed Button -->
+        <div class="text-center sm:text-right">
+            <% let price = 0; %>
+            <% for (let item of buyer.cart.items) { price += item.price; } %>
+
+            <p class="text-2xl font-semibold text-gray-800 mb-2">
+                Subtotal: <span class="text-green-700">&#x20B9;<%= price.toFixed() %></span>
+            </p>
+            <button class="w-60 bg-yellow-500 hover:bg-yellow-600 text-white font-bold py-2 px-4 rounded-full">
+                Proceed to Buy
+            </button>
+        </div>
+    </div>
+
+    <!-- Cart Items -->
+    <% for (let item of buyer.cart.items) { %>
+        <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center border-t border-gray-300 py-4 px-2 sm:px-6 mb-4 hover:bg-gray-50 transition duration-150">
+
+            <!-- Product Image -->
+            <div class="w-36 h-36 overflow-hidden rounded shadow-sm border mb-3 sm:mb-0">
+                <img src="<%= item.image[0].url %>" alt="<%= item.title %>" class="w-full h-full object-cover">
+            </div>
+
+            <!-- Product Details -->
+            <div class="flex-1 px-2 space-y-2">
+                <h3 class="text-xl font-semibold text-gray-800"><%= item.title %></h3>
+
+                <% if(item.stock > 10) { %>
+                    <p class="text-green-600 text-sm font-medium">In Stock</p>
+                <% } else { %>
+                    <p class="text-red-500 text-sm font-medium">Only <%= item.stock %> left in stock</p>
+                <% } %>
+
+                <!-- Delete Button -->
+                <form action="/api/cart/<%= item._id %>?_method=DELETE" method="POST" class="pt-2">
+                    <button type="submit"
+                        class="text-red-500 hover:underline text-sm flex items-center gap-1">
+                        <!-- Trash Icon -->
+                        <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24"
+                            stroke="currentColor" stroke-width="2">
+                            <path stroke-linecap="round" stroke-linejoin="round"
+                                d="M6 18L18 6M6 6l12 12" />
+                        </svg>
+                        <span>Remove</span>
+                    </button>
+                </form>
+            </div>
+
+            <!-- Price -->
+            <div class="text-right w-32 mt-2 sm:mt-0">
+                <p class="text-lg font-bold text-green-700">&#x20B9;<%= item.price %></p>
+            </div>
+        </div>
+    <% } %>
+</div>

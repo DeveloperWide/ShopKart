@@ -32,10 +32,19 @@ const User = mongoose.model("User", userSchema);
 const buyerSchema = new Schema({
     orders: [
         {
-            type: mongoose.Schema.Types.ObjectId,
+            type: Schema.Types.ObjectId,
             ref: "Order"
         }
-    ]
+    ],
+    cart: {
+        type: Schema.Types.ObjectId,
+        ref: "Cart"
+    },
+    wishlist: {
+        type: Schema.Types.ObjectId,
+        ref: "Wishlist"
+    }
+
 });
 
 const Buyer = User.discriminator('buyer', buyerSchema);
@@ -43,7 +52,7 @@ const Buyer = User.discriminator('buyer', buyerSchema);
 const sellerSchema = new Schema({
     products: [
         {
-            type: mongoose.Schema.Types.ObjectId,
+            type: Schema.Types.ObjectId,
             ref: "Product"
         }
     ]

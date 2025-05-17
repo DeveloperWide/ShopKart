@@ -12,6 +12,8 @@ const session = require("express-session")
 const flash = require("connect-flash")
 const MongoStore = require("connect-mongo")
 const dbUrl = `mongodb://127.0.0.1:27017/shopkart`;
+const ExpressError = require("./utility/ExpressError");
+const { Buyer } = require("./models/User");
 
 let sessionOptions = {
     store: MongoStore.create({
@@ -32,8 +34,9 @@ const userAuthRoutes = require("./routes/userAuth")
 const userAccountRoutes = require("./routes/userAccount")
 const productRoutes = require("./routes/product");
 const adminRoutes = require("./routes/admin");
-const ExpressError = require("./utility/ExpressError");
-
+const cartRoutes = require("./routes/cart");
+const wishlistRoutes = require("./routes/wishlist");
+const reviewRoutes = require("./routes/review")
 
 // use ejs-locals for all ejs templates:
 app.engine('ejs', ejsMate);
@@ -55,8 +58,16 @@ async function main() {
 
 
 app.use(methodOverride("_method"))
-app.use((req, res, next) => {
+app.use(async (req, res, next) => {
    res.locals.currUser = req.session.user;
+   let buyer = await Buyer.findById(req.session.user._id).populate("cart").populate("wishlist");
+   if(buyer.cart || buyer.wishlist){
+    res.locals.cartItems = buyer.cart.items.length;
+    res.locals.wishlistItems = buyer.wishlist.items.length;
+   }else{
+    res.locals.cartItems = 0;
+    res.locals.wishlistItems = 0;
+   }
    res.locals.error = req.flash("error");
    res.locals.success = req.flash("success");
    next();
@@ -72,8 +83,18 @@ app.get("/" , (req, res) => {
     res.redirect("/api/products")
 })
 
+// Cart Routes
+app.use("/api/cart/", cartRoutes);
+// Wishlist Routes
+app.use("/api/wishlist/", wishlistRoutes);
 
-app.use("/api/products/", productRoutes)
+// Product Routes
+app.use("/api/products/", productRoutes);
+
+// Review Routes
+app.use("/api/products/:id/", reviewRoutes)
+
+// admin Routes
 app.use("/admin/", adminRoutes)
 // User auth
 app.use("/api/auth/", userAuthRoutes);

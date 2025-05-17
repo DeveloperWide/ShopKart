@@ -9,7 +9,7 @@
                 <h3 class="font-bold text-2xl pb-5">
                     <%= product.title %>
                 </h3>
-                <% if(currUser && currUser !== null) {%>
+                <% if(currUser && currUser !==null) {%>
                     <% if(String(currUser._id)===String(product.owner._id)) {%>
                         <div class="flex justify-end px-4 pt-4">
                             <button id="dropdownButton" data-dropdown-toggle="dropdown"
@@ -62,12 +62,24 @@
                             <% } %>
                     </div>
                     <div class="flex items-center mt-10 gap-4 text-base">
-                <button class="w-full py-3.5 font-medium bg-green-400 text-gray-800/80 hover:bg-green-500 transition cursor-pointer rounded">
-                    Add to Cart
-                </button>
-                <button class="w-full py-3.5 font-medium bg-indigo-500 text-white hover:bg-indigo-600 transition cursor-pointer rounded">
-                    Buy now
-                </button>
-            </div>
+                        <form action="/api/cart/<%= product._id %>" method="post" class="w-full">
+                            <button type="submit"
+                                class="w-full py-3.5 font-medium bg-green-400 text-gray-800/80 hover:bg-green-500 transition cursor-pointer rounded">
+                                Add to Cart
+                            </button>
+                        </form>
+                        <button
+                            class="w-full py-3.5 font-medium bg-indigo-500 text-white hover:bg-indigo-600 transition cursor-pointer rounded">
+                            Buy now
+                        </button>
+                    </div>
+                    <div class="py-3">
+                        <form action="/api/wishlist/<%= product._id %>" method="post">
+                            <button type="submit"
+                            class="w-full py-3.5 font-medium bg-orange-500 text-white hover:bg-orange-600 transition cursor-pointer rounded">
+                            Add to Wishlist &hearts;
+                        </button>
+                        </form>
+                    </div>
         </div>
     </div>

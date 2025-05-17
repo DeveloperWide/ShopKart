@@ -62,14 +62,20 @@
                                 class="flex justify-start ps-2 items-center hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white  ">
                                 <i class="fa-solid fa-rotate"></i>
                                 <form action="/api/user/profile/change-password" method="get">
-                                    <button type="submit" class="block px-4 py-2 text-sm text-white font-bold cursor-pointer">Change
+                                    <button type="submit"
+                                        class="block px-4 py-2 text-sm text-white font-bold cursor-pointer">Change
                                         Password</button>
                                 </form>
                             </li>
-                            <li class="flex justify-start ps-2 items-center hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">
-                                <form action="/api/user/profile/forgot-password" method="post" class="flex items-center">
+                            <li
+                                class="flex justify-start ps-2 items-center hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">
+                                <form action="/api/user/profile/forgot-password" method="post"
+                                    class="flex items-center">
                                     <i class="fa-solid fa-unlock text-white"></i>
-                                    <button type="submit" class="block px-4 py-2 text-sm text-white font-bold cursor-pointer">Forget Password</button></form>
+                                    <button type="submit"
+                                        class="block px-4 py-2 text-sm text-white font-bold cursor-pointer">Forget
+                                        Password</button>
+                                </form>
                             </li>
                         </ul>
                     </div>
@@ -88,26 +94,28 @@
                         </tr>
                     </thead>
                     <tbody class="text-gray-700">
-                        <% for(let product of user.products) { %>
-                            <tr class="border-t hover:bg-gray-50">
-                                <td class="px-4 py-3">
-                                    <img src="<%= product.image[0].url %>" alt="<%= product.title %>"
-                                        class="h-16 w-16 object-cover rounded shadow">
-                                </td>
-                                <td class="px-4 py-3">
-                                    <%= product.title %>
-                                </td>
-                                <td class="px-4 py-3 font-medium text-green-600">₹<%= product.price %>
-                                </td>
-                                <td class="px-4 py-3">
-                                    <form action="/product/<%= product._id %>?_method=DELETE" method="post">
-                                        <button type="submit"
-                                            class="bg-red-100 hover:bg-red-200 text-red-600 font-semibold py-1 px-4 rounded">Cancel
-                                            Item</button>
-                                    </form>
-                                </td>
-                            </tr>
-                            <% } %>
+                        <% if(currUser.role==="seller" ) {%>
+                            <% for(let product of user.products) { %>
+                                <tr class="border-t hover:bg-gray-50">
+                                    <td class="px-4 py-3">
+                                        <img src="<%= product.image[0].url %>" alt="<%= product.title %>"
+                                            class="h-16 w-16 object-cover rounded shadow">
+                                    </td>
+                                    <td class="px-4 py-3">
+                                        <%= product.title %>
+                                    </td>
+                                    <td class="px-4 py-3 font-medium text-green-600">₹<%= product.price %>
+                                    </td>
+                                    <td class="px-4 py-3">
+                                        <form action="/product/<%= product._id %>?_method=DELETE" method="post">
+                                            <button type="submit"
+                                                class="bg-red-100 hover:bg-red-200 text-red-600 font-semibold py-1 px-4 rounded">Cancel
+                                                Item</button>
+                                        </form>
+                                    </td>
+                                </tr>
+                                <% } %>
+                                    <% } %>
                     </tbody>
                 </table>
             </div>
