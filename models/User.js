@@ -43,8 +43,40 @@ const buyerSchema = new Schema({
     wishlist: {
         type: Schema.Types.ObjectId,
         ref: "Wishlist"
-    }
-
+    },
+    addresses: [
+        {
+            name: {
+                type: String,
+                required: true,
+            },
+            address: {
+                type: String,
+                required: true,
+            },
+            country: {
+                type: String,
+                enum: ["India"],
+                default: "India"
+            },
+            zip_code:{
+                type: Number,
+                required: true,
+            },
+            city:{
+                type: String,
+                required: true
+            },
+            state:{
+                type:String,
+                required: true
+            },
+            mobile_number: {
+                type: Number,
+                required: true,
+            }
+        }
+    ]
 });
 
 const Buyer = User.discriminator('buyer', buyerSchema);

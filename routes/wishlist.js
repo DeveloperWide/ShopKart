@@ -2,9 +2,10 @@ const express = require("express");
 const Product = require("../models/Product");
 const { User } = require("../models/User");
 const router = express.Router();
-const Wishlist = require("../models/Wishlist")
+const Wishlist = require("../models/Wishlist");
+const { isLoggedIn , isBuyer } = require("../middleware/middleware");
 
-router.get("/", async (req, res) => {
+router.get("/", isLoggedIn, isBuyer, async (req, res) => {
     let currUser = await User.findById(req.session.user._id).populate({
         path: "wishlist", populate: {
             path: "items"
@@ -13,7 +14,7 @@ router.get("/", async (req, res) => {
     res.render("user/Wishlist/userWishlist.ejs" , {buyer: currUser});
 })
 
-router.post("/:id", async (req, res) => {
+router.post("/:id", isLoggedIn, isBuyer, async (req, res) => {
     let { id } = req.params;
     let product = await Product.findById(id);
     let currUser = await User.findById(req.session.user._id);
@@ -44,7 +45,7 @@ router.post("/:id", async (req, res) => {
 });
 
 // Delete One Item
-router.delete("/:itemId" , async (req, res) => {
+router.delete("/:itemId" , isLoggedIn, isBuyer, async (req, res) => {
     let {itemId} = req.params;
     let currUser = await User.findById(req.session.user._id)
     let wishlistItemToBeDeleted = await Wishlist.findById(currUser.wishlist);

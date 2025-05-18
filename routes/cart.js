@@ -2,10 +2,10 @@ const express = require("express");
 const Cart = require("../models/Cart");
 const Product = require("../models/Product");
 const { User, Buyer } = require("../models/User");
+const { isLoggedIn, isBuyer } = require("../middleware/middleware");
 const router = express.Router();
-
-// Cart Item
-router.get("/", async (req, res) => {
+// Cart Item 
+router.get("/", isLoggedIn, isBuyer,  async (req, res) => {
     if (req.session.user.role === "buyer") {
         let buyer = await Buyer.findById(req.session.user._id).populate({path : "cart" , populate: {
             path: "items"
@@ -18,7 +18,7 @@ router.get("/", async (req, res) => {
 })
 
 // add Items in Cart
-router.post("/:id", async (req, res) => {
+router.post("/:id", isLoggedIn, isBuyer, async (req, res) => {
     let { id } = req.params;
     let product = await Product.findById(id);
     let buyer = await Buyer.findById(req.session.user._id).populate("cart");
@@ -48,7 +48,7 @@ router.post("/:id", async (req, res) => {
 });
 
 // Clear Entire Cart
-router.delete("/clear", async(req, res) => {
+router.delete("/clear", isLoggedIn, isBuyer, async(req, res) => {
     let currUser = await User.findById(req.session.user._id);
     let cart = await Cart.findById(currUser.cart);
 
@@ -60,7 +60,7 @@ router.delete("/clear", async(req, res) => {
 })
 
 // Delete One Item
-router.delete("/:itemId" , async (req, res) => {
+router.delete("/:itemId" ,isLoggedIn, isBuyer, async (req, res) => {
     let {itemId} = req.params;
     let currUser = await User.findById(req.session.user._id)
     let cartItemToBeDeleted = await Cart.findById(currUser.cart);

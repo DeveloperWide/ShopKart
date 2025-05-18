@@ -9,12 +9,15 @@
         integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <link rel="stylesheet" href="/css/rating.css">
 </head>
 
-<body >
+<body class="overflow-x-hidden">
     <%- include("../layouts/navbar.ejs") %>
-        <%- include("../layouts/flash.ejs") %>
-                                <div class="container overflow-x-hidden">
+       <% if(error || success) {%>
+         <%- include("../layouts/flash.ejs") %>
+        <% } %>
+                                <div class="overflow-x-hidden w-full overflow-x-hidden">
                                     <%- body -%>
                                 </div>
                                 <%- include("../layouts/footer.ejs") %>

@@ -76,10 +76,77 @@
                     <div class="py-3">
                         <form action="/api/wishlist/<%= product._id %>" method="post">
                             <button type="submit"
-                            class="w-full py-3.5 font-medium bg-orange-500 text-white hover:bg-orange-600 transition cursor-pointer rounded">
-                            Add to Wishlist &hearts;
-                        </button>
+                                class="w-full py-3.5 font-medium bg-orange-500 text-white hover:bg-orange-600 transition cursor-pointer rounded">
+                                Add to Wishlist &hearts;
+                            </button>
                         </form>
                     </div>
         </div>
+
+    </div>
+
+    <div class="flex flex-col justify-center items-center m-3">
+        <% if(currUser) {%>
+            <hr class="h-px  bg-gray-200 text-gray-300 w-full border-1 dark:bg-gray-700">
+            </hr>
+            <h1 class="font-bold text-start p-5 w-full m-3 text-3xl drop-shadow-xl/50">Leave a Review</h1>
+            <form action="/api/products/<%= product._id %>/review" method="post" class="w-full">
+                <div class="flex items-start gap-3 text-sm w-full">
+                    <img class="w-9 h-9 rounded-full" src="<%= currUser.image.url %>" alt="userImage1">
+                    <div class=" w-full px-3">
+                        <div class="w-full  flex gap-1">
+                            <fieldset class="starability-slot">
+                                <input type="radio" id="second-rate1" name="review[rating]" value="1" checked />
+                                <label for="second-rate1" title="Terrible">1 star</label>
+                                <input type="radio" id="second-rate2" name="review[rating]" value="2" />
+                                <label for="second-rate2" title="Not good">2 stars</label>
+                                <input type="radio" id="second-rate3" name="review[rating]" value="3" />
+                                <label for="second-rate3" title="Average">3 stars</label>
+                                <input type="radio" id="second-rate4" name="review[rating]" value="4" />
+                                <label for="second-rate4" title="Very good">4 stars</label>
+                                <input type="radio" id="second-rate5" name="review[rating]" value="5" />
+                                <label for="second-rate5" title="Amazing">5 stars</label>
+                            </fieldset>
+                        </div>
+                        <div class="px-3">
+                            <label for="reviewComment" class="text-xl">Review</label>
+                            <textarea
+                                class="w-full rounded-md rounded-b-none p-2.5  w-80 h-28 outline-none resize-none bg-white focus-within:border-indigo-500 transition border border-gray-500/30 flex flex-col p-3 text-lg"
+                                placeholder="Add your comment..." name="review[comment]"></textarea>
+                        </div>
+                        <div class="flex items-center justify-end px-2.5 pb-2">
+                            <button type="submit"
+                                class="bg-indigo-500 hover:bg-indigo-600 active:scale-95 transition-all text-white font-medium px-5 py-2 rounded m-2">Post</button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+            <% } %>
+                <% if(product.reviews.length> 0) {%>
+                    <div class="w-full m-5">
+                        <h1 class="font-bold m-5 text-3xl drop-shadow-xl/50">Reviews</h1>
+                        <div class="flex flex-wrap">
+                            <% for(let review of product.reviews) {%>
+                                <div class="p-2 border w-60 h-auto mx-3 rounded my-3 flex">
+                                    <img src=" <%= review.user.image.url %>" class="w-full h-15 rounded-full p-1 m-2`"
+                                        alt="">
+                                    <div class="flex flex-col items-start justify-center m-2 w-80">
+                                        <p class="starability-result" data-rating="<%= review.rating%>">
+                                        </p>
+                                        <p class="my-3">
+                                            <%= review.comment %>
+                                        </p>
+                                        <form
+                                            action="/api/products/<%= product._id %>/review/<%= review._id %>?_method=DELETE"
+                                            method="post" class="flex justify-end w-full">
+                                            <button type="submit"
+                                                class="text-end border p-2 m-1 bg-red-600 rounded font-semibold cursor-pointer px-3 text-white">Delete</button>
+                                        </form>
+                                    </div>
+                                </div>
+                                <% } %>
+                        </div>
+                    </div>
+                    <% } %>
+    </div>
     </div>

@@ -10,7 +10,9 @@ module.exports.allProducts = asyncWrapper(async (req, res) => {
 
 module.exports.showProduct = async (req, res, next) => {
     let { id } = req.params;
-    let product = await Product.findById(id).populate("owner");
+    let product = await Product.findById(id).populate("owner").populate({path: "reviews" , populate: {
+        path: "user"
+    }});
 
     if (!product) {
         req.flash("error", "Product Not Found");

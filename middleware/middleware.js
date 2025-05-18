@@ -25,9 +25,18 @@ module.exports.isSeller = (req, res, next) => {
     let currUser = req.session.user;
     if(currUser.role !== "seller"){
       req.flash("error" , "You're Not the Seller.");
-      return res.redirect("/product")
+      return res.redirect("/api/products")
     }
     return next();
+}
+
+module.exports.isBuyer = (req, res, next) => {
+    let currUser = req.session.user;
+    if(currUser.role !== "buyer"){
+      req.flash("error" , "You're Not the Buyer.");
+      return res.redirect("/api/products")
+    }
+    return next()
 }
 
 module.exports.isLoggedIn = (req, res, next) => {
@@ -35,7 +44,7 @@ module.exports.isLoggedIn = (req, res, next) => {
     req.session.redirectUrl = req.originalUrl;
     if(!currUser){
         req.flash("error", "You are not logged In");
-        return res.redirect("/user/login");
+        return res.redirect("/api/auth/login");
     };
     return next();
 }

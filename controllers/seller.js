@@ -6,17 +6,17 @@ module.exports.adminDashboard = asyncWrapper(async (req, res) => {
     let { username } = req.params;
     let user = await User.findOne({ username: username }).populate("products")
     console.log(`User`, user)
-    res.render("admin/dashboard.ejs", { user })
+    res.render("seller/dashboard.ejs", { user })
 })
 
 module.exports.manageProducts = asyncWrapper(async (req, res) => {
     let { username } = req.params;
     let user = await User.findOne({ username: username }).populate("products")
-    res.render("admin/product/products.ejs", { user })
+    res.render("seller/product/products.ejs", { user })
 })
 
 module.exports.renderNewProductForm = asyncWrapper(async (req, res) => {
-    res.render("admin/product/new.ejs")
+    res.render("seller/product/new.ejs")
 })
 
 module.exports.createNewProduct = asyncWrapper(async (req, res) => {
@@ -27,14 +27,14 @@ module.exports.createNewProduct = asyncWrapper(async (req, res) => {
     // Step 1: Validate that images are uploaded
     if (!req.files || req.files.length === 0) {
         req.flash("error", "Please upload at least one product image.");
-        return res.redirect(`/admin/${username}/products/add`);
+        return res.redirect(`/api/seller/${username}/products/add`);
     }
 
     // Step 2: Validate that each file has filename and path (extra safety)
     const invalidFiles = req.files.filter(file => !file.filename || !file.path);
     if (invalidFiles.length > 0) {
         req.flash("error", "Invalid image files uploaded. Try again.");
-        return res.redirect(`/admin/${username}/products/add`);
+        return res.redirect(`/api/seller/${username}/products/add`);
     }
 
     // Step 3: Create new product
@@ -50,7 +50,7 @@ module.exports.createNewProduct = asyncWrapper(async (req, res) => {
     let productRes = await newProduct.save();
     if (!productRes) {
         req.flash("error", "Product could not be saved in Database");
-        return res.redirect("/product/new");
+        return res.redirect(`/api/seller/${username}/products/add`);
     }
     let objectId = productRes._id
     let seller = await Seller.findById(id);
@@ -58,7 +58,7 @@ module.exports.createNewProduct = asyncWrapper(async (req, res) => {
     await seller.save();
 
     req.flash("success", "Product Created Successfully");
-    return res.redirect(`/admin/${username}/products`);
+    return res.redirect(`/api/seller/${username}/products`);
 }
 )
 module.exports.renderEditProductForm = asyncWrapper(async (req, res) => {
@@ -66,9 +66,9 @@ module.exports.renderEditProductForm = asyncWrapper(async (req, res) => {
     let product = await Product.findById(id)
     if (!product) {
         req.flash("error", "The Product You're Trying to edit doesn't exist.");
-        return res.redirect("/product")
+        return res.redirect("/api/products")
     }
-    res.render("admin/product/edit.ejs", { product });
+    res.render("seller/product/edit.ejs", { product });
 })
 
 module.exports.updateProduct = asyncWrapper(async (req, res) => {
@@ -79,7 +79,7 @@ module.exports.updateProduct = asyncWrapper(async (req, res) => {
 
     if (!oldProduct) {
         req.flash("error", "Product not found");
-        return res.redirect("/product");
+        return res.redirect("/api/products");
     }
 
     // Step 1: Delete old images from Cloudinary
@@ -101,5 +101,5 @@ module.exports.updateProduct = asyncWrapper(async (req, res) => {
         await productToBeUpdated.save();
     }
     req.flash("success", "Product Updated Successfully")
-    return res.redirect(`/admin/${username}/products`);
+    return res.redirect(`/api/seller/${username}/products`);
 })

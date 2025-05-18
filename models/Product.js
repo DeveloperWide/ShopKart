@@ -24,6 +24,9 @@ const productSchema = new Schema({
     category: {
         type: String,
     },
+    reviews: [
+        {type: Schema.Types.ObjectId, ref: "Review"}
+    ],
     owner: {
         type: Schema.Types.ObjectId,
         ref: "User"

@@ -3,7 +3,7 @@ const { isLoggedIn, isSeller, isAdmin, isOwner, validateProduct } = require("../
 const router = express.Router();
 const multer = require("multer")
 const { storage } = require("../cloudConfig");
-const controllers = require("../controllers/admin");
+const controllers = require("../controllers/seller");
 const { User, Seller } = require("../models/User");
 const ExpressError = require("../utility/ExpressError");
 const upload = multer({ storage });
@@ -41,7 +41,7 @@ TASKS:
 router.get("/:username/categories",  async(req, res) => {
     let {username} = req.params;
     let user = await User.findOne({username: username}).populate("products");
-    res.render("admin/categories/categories.ejs", {user});
+    res.render("seller/categories/categories.ejs", {user});
 })
 
 router.get("/:username/categories/:category/products", async (req, res, next) => {
@@ -57,14 +57,8 @@ router.get("/:username/categories/:category/products", async (req, res, next) =>
             return product.category && product.category.toLowerCase() === category.toLowerCase();
         });
 
-        res.render("admin/categories/products" , {products: filteredProducts , user , category})
+        res.render("seller/categories/products" , {products: filteredProducts , user , category})
 });
-
-// /admin/orders         → View and manage all orders
-// /admin/users          → Manage customers
-// /admin/coupons        → Manage discount coupons
-// /admin/banners        → Manage homepage banners/sliders
-// /admin/settings       → Store settings
 
 
 

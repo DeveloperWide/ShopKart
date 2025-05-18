@@ -33,10 +33,11 @@ app.use(flash())
 const userAuthRoutes = require("./routes/userAuth")
 const userAccountRoutes = require("./routes/userAccount")
 const productRoutes = require("./routes/product");
-const adminRoutes = require("./routes/admin");
+const sellerRoutes = require("./routes/seller");
 const cartRoutes = require("./routes/cart");
 const wishlistRoutes = require("./routes/wishlist");
-const reviewRoutes = require("./routes/review")
+const reviewRoutes = require("./routes/review");
+const addressRoutes = require("./routes/address")
 
 // use ejs-locals for all ejs templates:
 app.engine('ejs', ejsMate);
@@ -59,27 +60,33 @@ async function main() {
 
 app.use(methodOverride("_method"))
 app.use(async (req, res, next) => {
-   res.locals.currUser = req.session.user;
-   let buyer = await Buyer.findById(req.session.user._id).populate("cart").populate("wishlist");
-   if(buyer.cart || buyer.wishlist){
-    res.locals.cartItems = buyer.cart.items.length;
-    res.locals.wishlistItems = buyer.wishlist.items.length;
-   }else{
-    res.locals.cartItems = 0;
-    res.locals.wishlistItems = 0;
-   }
-   res.locals.error = req.flash("error");
-   res.locals.success = req.flash("success");
-   next();
+    res.locals.currUser = req.session.user;
+    res.locals.error = req.flash("error");
+    res.locals.success = req.flash("success");
+
+    if (res.locals.currUser) {
+        if(req.session.user.role === "buyer"){
+            let buyer = await Buyer.findById(req.session.user._id).populate("cart").populate("wishlist");
+        if (buyer.cart || buyer.wishlist) {
+            res.locals.cartItems = buyer.cart.items.length;
+            res.locals.wishlistItems = buyer.wishlist.items.length;
+        } else {
+            res.locals.cartItems = 0;
+            res.locals.wishlistItems = 0;
+        }
+        }
+    }
+
+    next();
 })
 // Server static files
-app.use(express.static(path.join(__dirname, "/public/")))
+app.use(express.static(path.join(__dirname, "/public")))
 
 // Parse URLencoded data
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json())
 
-app.get("/" , (req, res) => {
+app.get("/", (req, res) => {
     res.redirect("/api/products")
 })
 
@@ -92,22 +99,26 @@ app.use("/api/wishlist/", wishlistRoutes);
 app.use("/api/products/", productRoutes);
 
 // Review Routes
-app.use("/api/products/:id/", reviewRoutes)
+app.use("/api/products/:id/review", reviewRoutes)
+
+// Addresses
+app.use("/api/addresses", addressRoutes)
 
 // admin Routes
-app.use("/admin/", adminRoutes)
+app.use("/api/seller/", sellerRoutes)
 // User auth
 app.use("/api/auth/", userAuthRoutes);
 // User Account
 app.use("/api/user/", userAccountRoutes)
 
 app.use((req, res, next) => {
-    next(new ExpressError("Page Not Found" ,404))
+    next(new ExpressError("Page Not Found", 404))
 })
 
 app.use((err, req, res, next) => {
-    let {message = "Error Ocurred" , statusCode=500} = err;
-    res.status(statusCode).render("error.ejs" , {message})
+    let { message = "Error Ocurred", statusCode = 500 } = err;
+    console.log(err)
+    res.status(statusCode).render("error.ejs", { message })
 })
 
 app.listen(8080, () => {

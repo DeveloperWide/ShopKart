@@ -1,0 +1,95 @@
+<% layout("./boilerplate/boilerplate.ejs") -%>
+
+    <div>
+        <h1 class="p-4 text-2xl font-semibold text-gray-700">Your Addresses &#128071;</h1> 
+        <div class="flex flex-wrap gap-3 m-5"> 
+            
+            <% let i = 0 %>          
+            <% for(let address of user.addresses) {%>
+                <% i += 1 %>
+                <div>
+                    <b>Address <%= i %></b> <br>
+                <div class="border max-w-sm p-4 rounded-xl">
+                    <address>
+                        
+                        <b><%= address.name %></b> <br>
+                        <%= address.address %> <br>
+                        <%= address.city %>,
+                        <%= address.state %>,
+                        <%= address.zip_code %> <br>
+                        <b>+91&nbsp;</b><%= address.mobile_number %>
+                          <p class=" text-gray-700 font-semibold">IN</p>
+                    </address>
+                    <form action="/api/addresses/<%= address._id %>?_method=DELETE" method="post" class="w-full flex justify-end items-center">
+                        <button type="submit" class="bg-red-600 px-3 py-2  rounded-lg text-white font-semibold cursor-pointer">Delete</button>
+                    </form>
+                </div>
+                </div>
+                <% } %>
+        </div>
+        <hr class="h-px border-1 text-gray-300 my-4">
+        <h1 class="text-3xl py-3 px-2 font-bold text-gray-600">Add Billing Addresses</h1>
+        <form action="/api/addresses" method="post" id="address-form" class=" mx-auto p-6  bg-white rounded-lg shadow-md">
+            <div class=" grid grid-cols-2 gap-7">
+                <div>
+                    <div class="grid grid-cols-1 grid-rows-2 sm:grid-cols-2 sm: grid-rows-1 gap-8">
+                        <div class="mb-4 max-w-sm">
+                            <label for="name" class="block text-sm font-medium text-gray-700">Full Name</label>
+                            <input type="text" id="name" name="address[name]" required
+                                class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500" />
+                        </div>
+
+                        <div class="mb-6">
+                            <label for="mobile_number" class="block text-sm font-medium text-gray-700">Mobile
+                                Number</label>
+                            <input type="tel" id="mobile_number" name="address[mobile_number]" required
+                                class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500" />
+                        </div>
+                    </div>
+
+                    <div class="mb-4 max-w-xl">
+                        <label for="address" class="block text-sm font-medium text-gray-700">Address</label>
+                        <textarea id="address" name="address[address]" rows="4" required
+                            class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"></textarea>
+                    </div>
+
+                    <div class="grid grid-cols-2 gap-7">
+                        <div class="mb-4">
+                            <label for="state" class="block text-sm font-medium text-gray-700">State</label>
+                            <input type="text" id="state" name="address[state]" required
+                                class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500" />
+                        </div>
+
+                        <div class="mb-4 max-w-sm">
+                            <label for="zip_code" class="block text-sm font-medium text-gray-700">Zip Code</label>
+                            <input type="number" id="zip_code" name="address[zip_code]" required
+                                class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500" />
+                        </div>
+                    </div>
+                </div>
+
+                <div class="grid grid-rows-3 gap-6 ">
+                    <div class="mb-4 max-w-sm">
+                        <label for="country" class="block text-sm font-medium text-gray-700">Country</label>
+                        <select id="country" name="address[country]" required
+                            class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm bg-white focus:ring-blue-500 focus:border-blue-500">
+                            <option value="India" selected>India</option>
+                        </select>
+                    </div>
+
+
+
+                    <div class="mb-4 max-w-sm">
+                        <label for="city" class="block text-sm font-medium text-gray-700">City</label>
+                        <input type="text" id="city" name="address[city]" required
+                            class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500" />
+                    </div>
+                    <button type="submit"
+                        class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-md transition duration-300 place-self-center justify-self-start  max-w-50 max-h-10">
+                        Submit Address
+                    </button>
+                </div>
+            </div>
+        </form>
+
+    </div>

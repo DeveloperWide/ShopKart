@@ -29,7 +29,7 @@ module.exports.registerUser = asyncWrapper(async (req, res, next) => {
     await user.save();
     req.session.user = user;
     req.flash("success", `${name} registered successfully!`);
-    return res.redirect("/product");
+    return res.redirect("/api/products");
 });
 
 module.exports.renderLoginForm = async (req, res) => {
@@ -43,7 +43,7 @@ module.exports.loginUser = async (req, res) => {
     if (isValid) {
         req.session.user = user;
         req.flash("success", "User Successfully Saved")
-        let redirectUrl = res.locals.redirectUrl || "/product";
+        let redirectUrl = res.locals.redirectUrl || "/api/products";
         return res.redirect(redirectUrl);
     }
     req.flash("error", "Error while Saving User")
@@ -55,7 +55,7 @@ module.exports.logout = (req, res) => {
     if (req.session.user) {
         req.flash("success", "User successfully logged in")
         req.session.user = null;
-        res.redirect("/product")
+        res.redirect("/api/products")
     } else {
         req.flash("error", "No user in the Session")
         res.redirect("/user/login"); // Even if user wasn't logged in
