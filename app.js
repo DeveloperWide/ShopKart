@@ -11,7 +11,7 @@ const methodOverride = require("method-override")
 const session = require("express-session")
 const flash = require("connect-flash")
 const MongoStore = require("connect-mongo")
-const dbUrl = `mongodb://127.0.0.1:27017/shopkart`;
+const dbUrl = process.env.MONGODB_ATLAS_URI;
 const ExpressError = require("./utility/ExpressError");
 const { Buyer } = require("./models/User");
 
