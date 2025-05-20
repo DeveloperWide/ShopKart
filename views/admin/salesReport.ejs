@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Sales Analytics</title>
+</head>
+
+<body class="bg-gray-100 text-gray-900">
+
+    <!-- Layout Wrapper -->
+    <div class="flex min-h-screen">
+
+        <!-- Sidebar -->
+        <aside class="w-64 bg-white border-r hidden md:block">
+            <div class="p-6 text-2xl font-bold border-b">Admin Panel</div>
+            <nav class="p-4 space-y-4">
+                <a href="/api/admin/dashboard" class="block text-gray-700 hover:text-blue-500">Dashboard</a>
+                <a href="#" class="block text-gray-700 hover:text-blue-500">Users</a>
+                <a href="#" class="block text-gray-700 hover:text-blue-500">Products</a>
+                <a href="/api/admin/sales-report" class="block text-gray-700 hover:text-blue-500">Sales Report</a>
+            </nav>
+        </aside>
+
+        <!-- Main Section -->
+        <div class="flex-1 flex flex-col">
+
+            <!-- Header -->
+            <header class="bg-white shadow p-4 flex justify-between items-center">
+                <h1 class="text-xl font-semibold">Sales Analytics</h1>
+                <span class="text-sm text-gray-600">Updated: May 2025</span>
+            </header>
+
+            <!-- Main Content -->
+            <main class="p-6 space-y-6">
+
+                <!-- Filters -->
+                <section class="flex flex-col md:flex-row md:items-center gap-4">
+                    <div class="flex gap-2">
+                        <label for="from" class="text-sm">From:</label>
+                        <input type="date" id="from"
+                            class="border rounded px-2 py-1 text-sm focus:outline-none focus:ring-2 focus:ring-blue-400" />
+                    </div>
+                    <div class="flex gap-2">
+                        <label for="to" class="text-sm">To:</label>
+                        <input type="date" id="to"
+                            class="border rounded px-2 py-1 text-sm focus:outline-none focus:ring-2 focus:ring-blue-400" />
+                    </div>
+                    <button class="bg-blue-600 text-white px-4 py-1 rounded hover:bg-blue-700 text-sm">Apply
+                        Filter</button>
+                </section>
+
+                <!-- Key Metrics -->
+                <section class="grid grid-cols-1 md:grid-cols-4 gap-6">
+                    <div class="bg-white p-4 shadow rounded-lg">
+                        <p class="text-sm text-gray-500">Total Revenue</p>
+                        <h2 class="text-2xl font-bold">$58,400</h2>
+                    </div>
+                    <div class="bg-white p-4 shadow rounded-lg">
+                        <p class="text-sm text-gray-500">Total Orders</p>
+                        <h2 class="text-2xl font-bold">764</h2>
+                    </div>
+                    <div class="bg-white p-4 shadow rounded-lg">
+                        <p class="text-sm text-gray-500">Average Order Value</p>
+                        <h2 class="text-2xl font-bold">$76.45</h2>
+                    </div>
+                    <div class="bg-white p-4 shadow rounded-lg">
+                        <p class="text-sm text-gray-500">Refunded Orders</p>
+                        <h2 class="text-2xl font-bold">12</h2>
+                    </div>
+                </section>
+
+                <!-- Sales Chart Placeholder -->
+                <section class="grid grid-cols-1 grid-rows-2 md:grid-cols-2 md:grid-rows-1 md:gap-1">
+                    <section class="bg-white min-w-md p-4 shadow rounded-lg h-72 flex items-center justify-center w-full">
+                        <canvas id="myChart" class="w-full"></canvas>
+                    </section>
+
+                    <!-- Sales by Category -->
+                    <section class="bg-white min-w-md p-4 shadow rounded-lg h-64 flex items-center justify-center w-full h-full">
+                        <canvas id="myChart2" class="w-full h-full"></canvas>
+                    </section>
+                </section>
+                <!-- Top Products -->
+                <section class="bg-white p-4 shadow rounded-lg">
+                    <h3 class="text-lg font-semibold mb-4">Top Selling Products</h3>
+                    <div class="overflow-x-auto">
+                        <table class="min-w-full table-auto">
+                            <thead>
+                                <tr class="bg-gray-100 text-left text-sm">
+                                    <th class="p-2">Product</th>
+                                    <th class="p-2">Units Sold</th>
+                                    <th class="p-2">Revenue</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr class="border-b">
+                                    <td class="p-2">Facewash Pro</td>
+                                    <td class="p-2">310</td>
+                                    <td class="p-2">$9,300</td>
+                                </tr>
+                                <tr class="border-b">
+                                    <td class="p-2">Beard Oil Max</td>
+                                    <td class="p-2">195</td>
+                                    <td class="p-2">$5,850</td>
+                                </tr>
+                                <tr>
+                                    <td class="p-2">Hair Wax Xtreme</td>
+                                    <td class="p-2">130</td>
+                                    <td class="p-2">$3,250</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
+
+            </main>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</body>
+
+</html>
+
+<script>
+    const ctx = document.getElementById('myChart');
+    const ctx2 = document.getElementById('myChart2')
+    new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
+            datasets: [{
+                label: '# of Votes',
+                data: [12, 19, 3, 5, 2, 3],
+                borderWidth: 1
+            }]
+        },
+        options: {
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            }
+        }
+    });
+
+    new Chart(ctx2, {
+        type: 'bar',
+        data: {
+            labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
+            datasets: [{
+                label: 'My First Dataset',
+                data: [65, 59, 80, 81, 56, 55, 40],
+                backgroundColor: [
+                    'rgba(255, 99, 132, 0.2)',
+                    'rgba(255, 159, 64, 0.2)',
+                    'rgba(255, 205, 86, 0.2)',
+                    'rgba(75, 192, 192, 0.2)',
+                    'rgba(54, 162, 235, 0.2)',
+                    'rgba(153, 102, 255, 0.2)',
+                    'rgba(201, 203, 207, 0.2)'
+                ],
+                borderColor: [
+                    'rgb(255, 99, 132)',
+                    'rgb(255, 159, 64)',
+                    'rgb(255, 205, 86)',
+                    'rgb(75, 192, 192)',
+                    'rgb(54, 162, 235)',
+                    'rgb(153, 102, 255)',
+                    'rgb(201, 203, 207)'
+                ],
+                borderWidth: 1
+            }]
+        },
+        options: {
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            }
+        },
+    });
+</script>

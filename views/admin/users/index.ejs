@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Admin - All Users</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 text-gray-800">
+  <div class="max-w-5xl mx-auto p-6">
+    <h1 class="text-3xl font-bold mb-6">All Users</h1>
+
+    <div class="space-y-4">
+      <% for(let user of users) { %>
+      <div class="flex items-center bg-white p-4 rounded-lg shadow hover:shadow-md transition-shadow">
+        
+        <!-- User Image -->
+        <div class="w-20 h-20 rounded-full overflow-hidden border border-gray-300">
+          <img
+            src="<%= user.image.url %>"
+            alt="<%= user.image.filename %>"
+            class="w-full h-full object-cover"
+          />
+        </div>
+
+        <!-- User Info -->
+        <div class="ml-4 flex flex-col">
+          <h2 class="text-xl font-semibold"><%= user.name %></h2>
+          <p class="text-sm text-gray-500">@<%= user.username %></p>
+        </div>
+
+        <!-- Optional Actions -->
+        <div class="ml-auto flex gap-2">
+          <a href="/api/admin/users/<%= user._id %>/edit">
+            <button class="text-blue-600 hover:text-blue-800 font-medium">Edit</button>
+          </a>
+         <form action="/api/admin/users/<%= user._id %>?_method=DELETE" method="post">
+             <button type="submit" class="text-red-600 hover:text-red-800 font-medium">Delete</button>
+         </form>
+        </div>
+      </div>
+      <% } %>
+    </div>
+  </div>
+  
+</body>
+</html>

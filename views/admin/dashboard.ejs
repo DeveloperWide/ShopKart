@@ -17,11 +17,10 @@
         <aside class="w-64 bg-white border-r hidden md:block">
             <div class="p-6 text-2xl font-bold border-b">Admin Panel</div>
             <nav class="p-4 space-y-4">
-                <a href="#" class="block text-gray-700 hover:text-blue-500">Dashboard</a>
+                <a href="/api/admin/dashboard" class="block text-gray-700 hover:text-blue-500">Dashboard</a>
                 <a href="#" class="block text-gray-700 hover:text-blue-500">Users</a>
                 <a href="#" class="block text-gray-700 hover:text-blue-500">Products</a>
-                <a href="#" class="block text-gray-700 hover:text-blue-500">Sales Report</a>
-                <a href="#" class="block text-gray-700 hover:text-red-500">Logout</a>
+                <a href="/api/admin/sales-report" class="block text-gray-700 hover:text-blue-500">Sales Report</a>
             </nav>
         </aside>
 
@@ -45,7 +44,7 @@
                     </div>
                     <div class="bg-white p-4 shadow rounded-lg">
                         <p class="text-sm text-gray-500">Total Sales</p>
-                        <h2 class="text-2xl font-bold">$45,800</h2>
+                        <h2 class="text-2xl font-bold">&#8377;45,800</h2>
                     </div>
                     <div class="bg-white p-4 shadow rounded-lg">
                         <p class="text-sm text-gray-500">Total Orders</p>
@@ -84,19 +83,19 @@
                                 <tr class="border-b">
                                     <td class="p-2">#1023</td>
                                     <td class="p-2">John Doe</td>
-                                    <td class="p-2">$150</td>
+                                    <td class="p-2">&#8377;150</td>
                                     <td class="p-2 text-green-600">Delivered</td>
                                 </tr>
                                 <tr class="border-b">
                                     <td class="p-2">#1024</td>
                                     <td class="p-2">Jane Smith</td>
-                                    <td class="p-2">$99</td>
+                                    <td class="p-2">&#8377;99</td>
                                     <td class="p-2 text-yellow-600">Pending</td>
                                 </tr>
                                 <tr>
                                     <td class="p-2">#1025</td>
                                     <td class="p-2">Raj Patel</td>
-                                    <td class="p-2">$210</td>
+                                    <td class="p-2">&#8377;210</td>
                                     <td class="p-2 text-blue-600">Shipped</td>
                                 </tr>
                             </tbody>
@@ -111,6 +110,7 @@
 </body>
 
 </html>
+
 <script>
     const ctx = document.getElementById('myChart');
     const ctx2 = document.getElementById('myChart2')
@@ -135,6 +135,7 @@
 
     new Chart(ctx2, {
         type: 'pie',
+
         data: {
             labels: [
                 'Red',
