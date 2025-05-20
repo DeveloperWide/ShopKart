@@ -1,4 +1,7 @@
 {
+  "engines": {
+    "node": "22.15.0"
+  },
   "name": "shopkart",
   "version": "1.0.0",
   "description": "This is  a e-commerce website we will be building",
