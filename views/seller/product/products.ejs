@@ -25,15 +25,17 @@
               <td class="px-4 py-3">
                 <img src="<%= product.image[0].url %>" alt="<%= product.title %>" class="h-16 w-16 object-cover rounded shadow">
               </td>
-              <td class="px-4 py-3"><%= product.title %></td>
+              <td class="px-4 py-3"><a href="/api/products/<%= product._id %>" class="cursor-pointer">
+                    <%= product.title %>
+                    </a></td>
               <td class="px-4 py-3 font-medium text-green-600">₹<%= product.price %></td>
               <td class="px-4 py-3">
-                <form action="/product/<%= product._id %>?_method=DELETE" method="post">
+                <form action="/api/products/<%= product._id %>?_method=DELETE" method="post">
                   <button type="submit" class="bg-red-100 hover:bg-red-200 text-red-600 font-semibold py-1 px-4 rounded">Delete</button>
                 </form>
               </td>
               <td class="px-4 py-3">
-                <form action="/admin/<%= currUser._id %>/products/<%= product._id %>/edit" method="get">
+                <form action="/api/seller/products/<%= product._id %>/edit" method="get">
                   <button type="submit" class="bg-blue-100 hover:bg-blue-200 text-blue-600 font-semibold py-1 px-4 rounded">Edit</button>
                 </form>
               </td>

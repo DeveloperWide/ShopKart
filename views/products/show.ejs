@@ -29,14 +29,14 @@
                                     <li
                                         class="flex justify-start ps-2 items-center hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">
                                         <i class="fa-solid fa-pen-to-square"></i>
-                                        <a href="/admin/<%= currUser.username %>/products/<%= product._id %>/edit"
+                                        <a href="/api/seller/products/<%= product._id %>/edit"
                                             class="block px-4 py-2 text-sm text-gray-700 text-white font-bold">Edit
                                             Product</a>
                                     </li>
                                     <li
                                         class="flex justify-start ps-2 items-center hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white  ">
                                         <i class="fa-solid fa-trash text-red-500"></i>
-                                        <form action="/product/<%= product._id %>?_method=DELETE" method="post">
+                                        <form action="/api/products/<%= product._id %>?_method=DELETE" method="post">
                                             <button type="submit"
                                                 class="block px-4 py-2 text-sm text-red-500 font-bold">Delete
                                                 Product</button>
@@ -61,26 +61,28 @@
                                 class="isCheck h-20 border border-black rounded-2xl cursor-pointer">
                             <% } %>
                     </div>
-                    <div class="flex items-center mt-10 gap-4 text-base">
-                        <form action="/api/cart/<%= product._id %>" method="post" class="w-full">
-                            <button type="submit"
-                                class="w-full py-3.5 font-medium bg-green-400 text-gray-800/80 hover:bg-green-500 transition cursor-pointer rounded">
-                                Add to Cart
+                    <% if( !currUser || currUser.role==="buyer" ) {%>
+                        <div class="flex items-center mt-10 gap-4 text-base">
+                            <form action="/api/cart/<%= product._id %>" method="post" class="w-full">
+                                <button type="submit"
+                                    class="w-full py-3.5 font-medium bg-green-400 text-gray-800/80 hover:bg-green-500 transition cursor-pointer rounded">
+                                    Add to Cart
+                                </button>
+                            </form>
+                            <button
+                                class="w-full py-3.5 font-medium bg-indigo-500 text-white hover:bg-indigo-600 transition cursor-pointer rounded">
+                                Buy now
                             </button>
-                        </form>
-                        <button
-                            class="w-full py-3.5 font-medium bg-indigo-500 text-white hover:bg-indigo-600 transition cursor-pointer rounded">
-                            Buy now
-                        </button>
-                    </div>
-                    <div class="py-3">
-                        <form action="/api/wishlist/<%= product._id %>" method="post">
-                            <button type="submit"
-                                class="w-full py-3.5 font-medium bg-orange-500 text-white hover:bg-orange-600 transition cursor-pointer rounded">
-                                Add to Wishlist &hearts;
-                            </button>
-                        </form>
-                    </div>
+                        </div>
+                        <div class="py-3">
+                            <form action="/api/wishlist/<%= product._id %>" method="post">
+                                <button type="submit"
+                                    class="w-full py-3.5 font-medium bg-orange-500 text-white hover:bg-orange-600 transition cursor-pointer rounded">
+                                    Add to Wishlist &hearts;
+                                </button>
+                            </form>
+                        </div>
+                        <% } %>
         </div>
 
     </div>

@@ -72,8 +72,20 @@
     </div>
 
     <div class="hidden sm:flex items-center gap-8">
+        <% if(currUser && currUser.role === "seller") {%>
+        <a href="/api/seller/products">Your Products</a>
+        <% } %>
+        <% if(!currUser || currUser.role === "buyer") {%>
         <a href="/api/products">Products</a>
-        <a href="/api/products/categories">Categories</a>
+        <% } %>
+
+        <% if(currUser && currUser.role === "seller" ) {%>
+        <a href="/api/seller/<%= currUser.username %>/categories">Orders</a>
+        <% } %>
+        <% if(!currUser || currUser.role === "buyer") {%>
+       <a href="/api/products/categories">Categories</a>
+        <% } %>
+        
 
         <div class="hidden lg:flex items-center text-sm gap-2 border border-gray-300 px-3 rounded-full">
             <input class="py-1.5 w-full bg-transparent outline-none placeholder-gray-500" type="text"
@@ -104,7 +116,7 @@
                 </a>
                 <% } %>
                     <% if(currUser.role==="seller" ) {%>
-                        <a href="/api/seller/<%= currUser.username %>/products/add" class="cursor-pointer">
+                        <a href="/api/seller/products/add" class="cursor-pointer">
                             <i class="fa-solid fa-plus text-xl"></i>
                         </a>
                         <% } %>

@@ -5,8 +5,7 @@ const { asyncWrapper } = require("../utility/wrapAsync.js")
 module.exports.allProducts = asyncWrapper(async (req, res) => {
     let products = await Product.find().populate("owner");
     res.render("products/index.ejs", { products })
-}
-)
+});
 
 module.exports.showProduct = async (req, res, next) => {
     let { id } = req.params;
@@ -35,6 +34,6 @@ module.exports.destroyProduct = asyncWrapper(
             await cloudinary.uploader.destroy(image.filename);
         }
         req.flash("success", "Product Deleted successfully")
-        res.redirect("/product")
+        res.redirect("/api/seller/products")
     }
 )

@@ -6,13 +6,6 @@ const upload = multer({ storage });
 const controllers = require("../controllers/userAuth"); 
 const { validateUser, redirectUrl } = require("../middleware/middleware");
 
-
-/* 
-/account/profile
-/account/orders
-/account/wishlist
-*/
-
 //Render Register Form
 router.get("/register", controllers.renderRegisterForm)
 

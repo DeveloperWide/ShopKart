@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Admin Dashboard</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="bg-gray-100 text-gray-900 w-full">
+
+    <!-- Sidebar + Header Layout -->
+    <div class="flex min-h-screen">
+
+        <!-- Sidebar -->
+        <aside class="w-64 bg-white border-r hidden md:block">
+            <div class="p-6 text-2xl font-bold border-b">Admin Panel</div>
+            <nav class="p-4 space-y-4">
+                <a href="#" class="block text-gray-700 hover:text-blue-500">Dashboard</a>
+                <a href="#" class="block text-gray-700 hover:text-blue-500">Users</a>
+                <a href="#" class="block text-gray-700 hover:text-blue-500">Products</a>
+                <a href="#" class="block text-gray-700 hover:text-blue-500">Sales Report</a>
+                <a href="#" class="block text-gray-700 hover:text-red-500">Logout</a>
+            </nav>
+        </aside>
+
+        <!-- Main Content -->
+        <div class="flex-1 flex flex-col">
+
+            <!-- Header -->
+            <header class="bg-white shadow p-4 flex justify-between items-center">
+                <h1 class="text-xl font-semibold">Admin Dashboard</h1>
+                <span class="text-sm text-gray-600">Welcome, Admin</span>
+            </header>
+
+            <!-- Body Content -->
+            <main class="p-6 space-y-6">
+
+                <!-- KPI Cards -->
+                <section class="grid grid-cols-1 md:grid-cols-4 gap-6">
+                    <div class="bg-white p-4 shadow rounded-lg">
+                        <p class="text-sm text-gray-500">Total Users</p>
+                        <h2 class="text-2xl font-bold">1,230</h2>
+                    </div>
+                    <div class="bg-white p-4 shadow rounded-lg">
+                        <p class="text-sm text-gray-500">Total Sales</p>
+                        <h2 class="text-2xl font-bold">$45,800</h2>
+                    </div>
+                    <div class="bg-white p-4 shadow rounded-lg">
+                        <p class="text-sm text-gray-500">Total Orders</p>
+                        <h2 class="text-2xl font-bold">389</h2>
+                    </div>
+                    <div class="bg-white p-4 shadow rounded-lg">
+                        <p class="text-sm text-gray-500">Products in Stock</p>
+                        <h2 class="text-2xl font-bold"><%= stocks %></h2>
+                    </div>
+                </section>
+
+                <!-- Charts Placeholder -->
+                <section class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                    <div class="bg-white shadow rounded-lg h-64 flex items-center justify-center w-full">
+                        <canvas id="myChart" class="w-full"></canvas>
+                    </div>
+                    <div class="bg-white shadow rounded-lg h-64 flex items-center justify-center w-full">
+                        <canvas id="myChart2" class="w-full"></canvas>
+                    </div>
+                </section>
+
+                <!-- Recent Orders -->
+                <section class="bg-white p-4 shadow rounded-lg">
+                    <h3 class="text-lg font-semibold mb-4">Recent Orders</h3>
+                    <div class="overflow-x-auto">
+                        <table class="min-w-full table-auto">
+                            <thead>
+                                <tr class="bg-gray-100 text-left text-sm">
+                                    <th class="p-2">Order ID</th>
+                                    <th class="p-2">Customer</th>
+                                    <th class="p-2">Amount</th>
+                                    <th class="p-2">Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr class="border-b">
+                                    <td class="p-2">#1023</td>
+                                    <td class="p-2">John Doe</td>
+                                    <td class="p-2">$150</td>
+                                    <td class="p-2 text-green-600">Delivered</td>
+                                </tr>
+                                <tr class="border-b">
+                                    <td class="p-2">#1024</td>
+                                    <td class="p-2">Jane Smith</td>
+                                    <td class="p-2">$99</td>
+                                    <td class="p-2 text-yellow-600">Pending</td>
+                                </tr>
+                                <tr>
+                                    <td class="p-2">#1025</td>
+                                    <td class="p-2">Raj Patel</td>
+                                    <td class="p-2">$210</td>
+                                    <td class="p-2 text-blue-600">Shipped</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
+
+            </main>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</body>
+
+</html>
+<script>
+    const ctx = document.getElementById('myChart');
+    const ctx2 = document.getElementById('myChart2')
+    new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
+            datasets: [{
+                label: '# of Votes',
+                data: [12, 19, 3, 5, 2, 3],
+                borderWidth: 1
+            }]
+        },
+        options: {
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            }
+        }
+    });
+
+    new Chart(ctx2, {
+        type: 'pie',
+        data: {
+            labels: [
+                'Red',
+                'Blue',
+                'Yellow'
+            ],
+            datasets: [{
+                label: 'My First Dataset',
+                data: [300, 50, 100],
+                backgroundColor: [
+                    'rgb(255, 99, 132)',
+                    'rgb(54, 162, 235)',
+                    'rgb(255, 205, 86)'
+                ],
+                hoverOffset: 4
+            }]
+        }
+    });
+</script>

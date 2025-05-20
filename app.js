@@ -29,6 +29,7 @@ let sessionOptions = {
 
 app.use(session(sessionOptions))
 app.use(flash())
+
 // Routes
 const userAuthRoutes = require("./routes/userAuth")
 const userAccountRoutes = require("./routes/userAccount")
@@ -37,7 +38,8 @@ const sellerRoutes = require("./routes/seller");
 const cartRoutes = require("./routes/cart");
 const wishlistRoutes = require("./routes/wishlist");
 const reviewRoutes = require("./routes/review");
-const addressRoutes = require("./routes/address")
+const addressRoutes = require("./routes/address");
+const adminRoutes = require("./routes/admin")
 
 // use ejs-locals for all ejs templates:
 app.engine('ejs', ejsMate);
@@ -90,26 +92,32 @@ app.get("/", (req, res) => {
     res.redirect("/api/products")
 })
 
-// Cart Routes
-app.use("/api/cart/", cartRoutes);
-// Wishlist Routes
-app.use("/api/wishlist/", wishlistRoutes);
+// app.use("/api/admin" , async (req, res, next) => {
+//     let {apiKey} = req.query;
+//     if(apiKey==="asdfasdfsdsdfsdf"){
+//        return next();
+//     }
+//     return next(new ExpressError("Wrong API Key" , 401))
+// })
+
+// Admin Routes
+app.use("/api/admin/", adminRoutes);
 
 // Product Routes
 app.use("/api/products/", productRoutes);
+app.use("/api/products/:id/review/", reviewRoutes)
 
-// Review Routes
-app.use("/api/products/:id/review", reviewRoutes)
-
-// Addresses
-app.use("/api/addresses", addressRoutes)
-
-// admin Routes
+// Seller Routes
 app.use("/api/seller/", sellerRoutes)
+
 // User auth
 app.use("/api/auth/", userAuthRoutes);
+
 // User Account
-app.use("/api/user/", userAccountRoutes)
+app.use("/api/user/", userAccountRoutes);
+app.use("/api/addresses/", addressRoutes);
+app.use("/api/wishlist/", wishlistRoutes);
+app.use("/api/cart/", cartRoutes);
 
 app.use((req, res, next) => {
     next(new ExpressError("Page Not Found", 404))

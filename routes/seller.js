@@ -9,56 +9,29 @@ const ExpressError = require("../utility/ExpressError");
 const upload = multer({ storage });
 
 
-// Admin dashboard
-router.get("/:username", isLoggedIn, isSeller, isAdmin, controllers.adminDashboard)
-
-// Manage products
-router.get("/:username/products", isLoggedIn, isSeller, controllers.manageProducts)
-
-//Show New Product Form
-router.get("/:username/products/add", isLoggedIn, isSeller, controllers.renderNewProductForm)
-
-// Add new product
-router.post("/:username/products", isLoggedIn, isSeller, upload.array("product[images]", 5), validateProduct, controllers.createNewProduct);
-
-// Render Edit product Form
-router.get("/:username/products/:id/edit", isLoggedIn, isSeller, isOwner, controllers.renderEditProductForm);
-
-// Edit Product
-router.put("/:username/products/:id", isLoggedIn, isSeller, isOwner, upload.array("product[images]", 5), controllers.updateProduct)
-
-//Show categories
 
 /* 
-TASKS: 
-
-1.) Add layer of middleware here 
-2.) Change user with currUser in these ejs files 
-
+POST      /api/seller/products    Add new product
+GET         /api/seller/products         Seller’s own products
+PUT        /api/seller/products/:id        Edit product
+DELETE    /api/seller/products/:id      Remove product
+GET  /api/seller/orders      Orders placed on their products
 */
 
+//  Seller’s own products
+router.get("/products", isLoggedIn, isSeller, controllers.sellerProducts)
 
-router.get("/:username/categories",  async(req, res) => {
-    let {username} = req.params;
-    let user = await User.findOne({username: username}).populate("products");
-    res.render("seller/categories/categories.ejs", {user});
-})
+//Show New Product Form
+router.get("/products/add", isLoggedIn, isSeller, controllers.renderNewProductForm)
 
-router.get("/:username/categories/:category/products", async (req, res, next) => {
-        const { username, category } = req.params;
+// Add new product
+router.post("/products", isLoggedIn, isSeller, upload.array("product[images]", 5), validateProduct, controllers.createNewProduct);
 
-        const user = await Seller.findOne({ username }).populate("products");
+// Render Edit product Form
+router.get("/products/:id/edit", isLoggedIn, isSeller, isOwner, controllers.renderEditProductForm);
 
-        if (!user) {
-            next(new ExpressError("Seller Not Found!", 404))
-        }
-
-        const filteredProducts = user.products.filter((product) => {
-            return product.category && product.category.toLowerCase() === category.toLowerCase();
-        });
-
-        res.render("seller/categories/products" , {products: filteredProducts , user , category})
-});
+// Edit Product
+router.put("/products/:id", isLoggedIn, isSeller, isOwner, upload.array("product[images]", 5), controllers.updateProduct)
 
 
 

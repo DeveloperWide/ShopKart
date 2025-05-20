@@ -34,8 +34,6 @@ router.get("/categories/:category", async (req, res) => {
 // Product Show Page
 router.get("/:id", controllers.showProduct);
 
-
-
 // Delete Product and Cloudinary Images
 router.delete("/:id", isLoggedIn, isSeller, isOwner, controllers.destroyProduct)
 
