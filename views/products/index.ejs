@@ -1,96 +1,98 @@
 <% layout("./boilerplate/boilerplate.ejs") -%>
 
-    <div class="flex flex-col items-center gap-4 p-5  mx-auto w-full">
+    <div>
+        <div class="flex flex-col items-center gap-4 p-5  mx-auto w-full h-full">
 
 
-        <div id="gallery" class="relative w-full py-6" data-carousel="slide">
-            <!-- Carousel wrapper -->
-            <div class="relative h-96 overflow-hidden rounded-lg md:h-126">
-                <!-- Item 1 -->
-                <div class="hidden duration-700 ease-in-out" data-carousel-item>
-                    <img src="https://flowbite.s3.amazonaws.com/docs/gallery/square/image-1.jpg"
-                        class="absolute block w-screen object-cover h-auto -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2"
-                        alt="">
-                </div>
-                <!-- Item 2 -->
-                <div class="hidden duration-700 ease-in-out" data-carousel-item="active">
-                    <img src="https://flowbite.s3.amazonaws.com/docs/gallery/square/image-2.jpg"
-                        class="absolute block w-screen object-cover h-auto -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2"
-                        alt="">
-                </div>
-                <!-- Item 3 -->
-                <div class="hidden duration-700 ease-in-out" data-carousel-item>
-                    <img src="https://flowbite.s3.amazonaws.com/docs/gallery/square/image-3.jpg"
-                        class="absolute block w-screen object-cover h-auto -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2"
-                        alt="">
-                </div>
-                <!-- Item 4 -->
-                <div class="hidden duration-700 ease-in-out" data-carousel-item>
-                    <img src="https://flowbite.s3.amazonaws.com/docs/gallery/square/image-4.jpg"
-                        class="absolute block w-screen object-cover h-auto -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2"
-                        alt="">
-                </div>
-                <!-- Item 5 -->
-                <div class="hidden duration-700 ease-in-out" data-carousel-item>
-                    <img src="https://flowbite.s3.amazonaws.com/docs/gallery/square/image-5.jpg"
-                        class="absolute block w-screen object-cover h-auto -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2"
-                        alt="">
-                </div>
-            </div>
-            <!-- Slider controls -->
-            <button type="button"
-                class="absolute top-0 start-0 z-30 flex items-center justify-center h-full px-4 cursor-pointer group focus:outline-none"
-                data-carousel-prev>
-                <span
-                    class="inline-flex items-center justify-center w-10 h-10 rounded-full bg-white/30 dark:bg-gray-800/30 group-hover:bg-white/50 dark:group-hover:bg-gray-800/60 group-focus:ring-4 group-focus:ring-white dark:group-focus:ring-gray-800/70 group-focus:outline-none">
-                    <svg class="w-4 h-4 text-white dark:text-gray-800 rtl:rotate-180" aria-hidden="true"
-                        xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10">
-                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M5 1 1 5l4 4" />
-                    </svg>
-                    <span class="sr-only">Previous</span>
-                </span>
-            </button>
-            <button type="button"
-                class="absolute top-0 end-0 z-30 flex items-center justify-center h-full px-4 cursor-pointer group focus:outline-none"
-                data-carousel-next>
-                <span
-                    class="inline-flex items-center justify-center w-10 h-10 rounded-full bg-white/30 dark:bg-gray-800/30 group-hover:bg-white/50 dark:group-hover:bg-gray-800/60 group-focus:ring-4 group-focus:ring-white dark:group-focus:ring-gray-800/70 group-focus:outline-none">
-                    <svg class="w-4 h-4 text-white dark:text-gray-800 rtl:rotate-180" aria-hidden="true"
-                        xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10">
-                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="m1 9 4-4-4-4" />
-                    </svg>
-                    <span class="sr-only">Next</span>
-                </span>
-            </button>
-        </div>
-
-        <h2 class="font-bold text-2xl md:text-3xl text-center">Shop on <span
-                class="italic text-3xl md:text-4xl text-orange-600"><span
-                    class="font-bold text-5xl text-blue-500">S</span>hopkart</span> </h2>
-        <div class="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2  lg:grid-cols-3 gap-6 justify-items-center">
-            <% for(let product of products) { %>
-                <div
-                    class="productCard w-full bg-white shadow-xl/30 rounded-2xl md:mx-8 border-t-6 border-orange-600 my-4 mx-4">
-                    <a href="/api/products/<%= product._id %>">
-                        <img class="rounded-t-2xl object-cover w-full border-b-1" src="<%= product.image[0].url %>"
-                            alt="<%= product.image[0].filename %>" />
-                    </a>
-                    <div class="p-5 bg-white rounded-b-2xl">
-
-                        <a href="/api/products/<%= product._id %>">
-                            <h5 class="mb-2 pb-2 text-2xl font-bold tracking-tight text-gray-950 dark:text-black">
-                                <%= product.title %>
-                            </h5>
-                        </a>
-                        <b class="text-4xl text-orange-700">&#8377;<%= product.price.toLocaleString() %></b>
-                        <% if(product.stock < 10) {%>
-                            <p class=" mt-3 text-orange-600">Only <%= product.stock %> items left in the Stock</p>
-                            <% } %>
-                                <p class="shippingDate text-xl py-5 text-gray-500"></p>
+            <div id="gallery" class="relative w-full py-6" data-carousel="slide">
+                <!-- Carousel wrapper -->
+                <div class="relative h-96 overflow-hidden rounded-lg md:h-126">
+                    <!-- Item 1 -->
+                    <div class="hidden duration-700 ease-in-out" data-carousel-item>
+                        <img src="https://flowbite.s3.amazonaws.com/docs/gallery/square/image-1.jpg"
+                            class="absolute block w-screen object-cover h-auto -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2"
+                            alt="">
+                    </div>
+                    <!-- Item 2 -->
+                    <div class="hidden duration-700 ease-in-out" data-carousel-item="active">
+                        <img src="https://flowbite.s3.amazonaws.com/docs/gallery/square/image-2.jpg"
+                            class="absolute block w-screen object-cover h-auto -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2"
+                            alt="">
+                    </div>
+                    <!-- Item 3 -->
+                    <div class="hidden duration-700 ease-in-out" data-carousel-item>
+                        <img src="https://flowbite.s3.amazonaws.com/docs/gallery/square/image-3.jpg"
+                            class="absolute block w-screen object-cover h-auto -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2"
+                            alt="">
+                    </div>
+                    <!-- Item 4 -->
+                    <div class="hidden duration-700 ease-in-out" data-carousel-item>
+                        <img src="https://flowbite.s3.amazonaws.com/docs/gallery/square/image-4.jpg"
+                            class="absolute block w-screen object-cover h-auto -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2"
+                            alt="">
+                    </div>
+                    <!-- Item 5 -->
+                    <div class="hidden duration-700 ease-in-out" data-carousel-item>
+                        <img src="https://flowbite.s3.amazonaws.com/docs/gallery/square/image-5.jpg"
+                            class="absolute block w-screen object-cover h-auto -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2"
+                            alt="">
                     </div>
                 </div>
-                <% } %>
+                <!-- Slider controls -->
+                <button type="button"
+                    class="absolute top-0 start-0 z-30 flex items-center justify-center h-full px-4 cursor-pointer group focus:outline-none"
+                    data-carousel-prev>
+                    <span
+                        class="inline-flex items-center justify-center w-10 h-10 rounded-full bg-white/30 dark:bg-gray-800/30 group-hover:bg-white/50 dark:group-hover:bg-gray-800/60 group-focus:ring-4 group-focus:ring-white dark:group-focus:ring-gray-800/70 group-focus:outline-none">
+                        <svg class="w-4 h-4 text-white dark:text-gray-800 rtl:rotate-180" aria-hidden="true"
+                            xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10">
+                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M5 1 1 5l4 4" />
+                        </svg>
+                        <span class="sr-only">Previous</span>
+                    </span>
+                </button>
+                <button type="button"
+                    class="absolute top-0 end-0 z-30 flex items-center justify-center h-full px-4 cursor-pointer group focus:outline-none"
+                    data-carousel-next>
+                    <span
+                        class="inline-flex items-center justify-center w-10 h-10 rounded-full bg-white/30 dark:bg-gray-800/30 group-hover:bg-white/50 dark:group-hover:bg-gray-800/60 group-focus:ring-4 group-focus:ring-white dark:group-focus:ring-gray-800/70 group-focus:outline-none">
+                        <svg class="w-4 h-4 text-white dark:text-gray-800 rtl:rotate-180" aria-hidden="true"
+                            xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10">
+                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="m1 9 4-4-4-4" />
+                        </svg>
+                        <span class="sr-only">Next</span>
+                    </span>
+                </button>
+            </div>
+
+            <h2 class="font-bold text-2xl md:text-3xl text-center">Shop on <span
+                    class="italic text-3xl md:text-4xl text-orange-600"><span
+                        class="font-bold text-5xl text-blue-500">S</span>hopkart</span> </h2>
+            <div class="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2  lg:grid-cols-3 gap-6 justify-items-center">
+                <% for(let product of products) { %>
+                    <div
+                        class="productCard w-full bg-white shadow-xl/30 rounded-2xl md:mx-8 border-t-6 border-orange-600 my-4 mx-4">
+                        <a href="/api/products/<%= product._id %>">
+                            <img class="rounded-t-2xl object-cover w-full border-b-1" src="<%= product.image[0].url %>"
+                                alt="<%= product.image[0].filename %>" />
+                        </a>
+                        <div class="p-5 bg-white rounded-b-2xl">
+
+                            <a href="/api/products/<%= product._id %>">
+                                <h5 class="mb-2 pb-2 text-2xl font-bold tracking-tight text-gray-950 dark:text-black">
+                                    <%= product.title %>
+                                </h5>
+                            </a>
+                            <b class="text-4xl text-orange-700">&#8377;<%= product.price.toLocaleString() %></b>
+                            <% if(product.stock < 10) {%>
+                                <p class=" mt-3 text-orange-600">Only <%= product.stock %> items left in the Stock</p>
+                                <% } %>
+                                    <p class="shippingDate text-xl py-5 text-gray-500"></p>
+                        </div>
+                    </div>
+                    <% } %>
+            </div>
         </div>
     </div>

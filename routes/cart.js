@@ -10,6 +10,7 @@ router.get("/", isLoggedIn, isBuyer,  async (req, res) => {
         let buyer = await Buyer.findById(req.session.user._id).populate({path : "cart" , populate: {
             path: "items"
         }} );
+
         res.render("user/Cart/userCarts.ejs", { buyer })
     } else {
         req.flash("error", "You're not a Buyer");

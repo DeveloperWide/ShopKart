@@ -69,7 +69,7 @@
                                     Add to Cart
                                 </button>
                             </form>
-                            <button
+                            <button onclick="payNow()"
                                 class="w-full py-3.5 font-medium bg-indigo-500 text-white hover:bg-indigo-600 transition cursor-pointer rounded">
                                 Buy now
                             </button>
@@ -113,7 +113,7 @@
                         <div class="px-3">
                             <label for="reviewComment" class="text-xl">Review</label>
                             <textarea
-                                class="w-full rounded-md rounded-b-none p-2.5  w-80 h-28 outline-none resize-none bg-white focus-within:border-indigo-500 transition border border-gray-500/30 flex flex-col p-3 text-lg"
+                                class="w-full rounded-md rounded-b-none h-28 outline-none resize-none bg-white focus-within:border-indigo-500 transition border border-gray-500/30 flex flex-col p-3 text-lg"
                                 placeholder="Add your comment..." name="review[comment]"></textarea>
                         </div>
                         <div class="flex items-center justify-end px-2.5 pb-2">
@@ -130,7 +130,7 @@
                         <div class="flex flex-wrap">
                             <% for(let review of product.reviews) {%>
                                 <div class="p-2 border w-60 h-auto mx-3 rounded my-3 flex">
-                                    <img src=" <%= review.user.image.url %>" class="w-full h-15 rounded-full p-1 m-2`"
+                                    <img src=" <%= review.user.image.url %>" class="w-full h-15 rounded-full p-1 m-2"
                                         alt="">
                                     <div class="flex flex-col items-start justify-center m-2 w-80">
                                         <p class="starability-result" data-rating="<%= review.rating%>">
@@ -152,3 +152,38 @@
                     <% } %>
     </div>
     </div>
+
+    <script>
+    async function payNow() {
+        const res = await fetch("/api/payment/order/", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ amount: <%= product.price %> * 100 })  // in paise
+        });
+        console.log(res)
+
+        const data = await res.json();
+
+        const options = {
+            key: "<%= keyId %>",
+            amount: data.amount,
+            currency: "INR",
+            name: "<%= product.title %>",
+            image: "<%= product.image[0].url %>",
+            order_id: data.id,
+            handler: function (response) {
+                alert("Payment successful!");
+            },
+            prefill: {
+                name: "<%= currUser ? currUser.username : '' %>",
+                email: "<%= currUser ? currUser.email : '' %>"
+            },
+            theme: {
+                color: "#6366f1"
+            }
+        };
+
+        const rzp = new Razorpay(options);
+        rzp.open();
+    }
+</script>

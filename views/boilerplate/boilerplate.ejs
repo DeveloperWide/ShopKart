@@ -17,11 +17,12 @@
        <% if(error || success) {%>
          <%- include("../layouts/flash.ejs") %>
         <% } %>
-                                <div class="overflow-x-hidden w-full overflow-x-hidden">
+                                <div class="w-full overflow-x-hidden min-h-screen">
                                     <%- body -%>
                                 </div>
                                 <%- include("../layouts/footer.ejs") %>
                                 <script src="/js/script.js"></script>
+                                <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
                                 <script src="https://unpkg.com/flowbite@latest/dist/flowbite.min.js"></script>
 </body>
 

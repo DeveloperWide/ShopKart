@@ -1,7 +1,4 @@
-if (process.env.NODE_ENV !== "production") {
-    const dotenv = require("dotenv").config();
-}
-
+const dotenv = require("dotenv").config();
 const express = require("express");
 const app = express();
 const path = require("path")
@@ -39,7 +36,8 @@ const cartRoutes = require("./routes/cart");
 const wishlistRoutes = require("./routes/wishlist");
 const reviewRoutes = require("./routes/review");
 const addressRoutes = require("./routes/address");
-const adminRoutes = require("./routes/admin")
+const adminRoutes = require("./routes/admin");
+const paymentRoutes = require("./routes/payment");
 
 // use ejs-locals for all ejs templates:
 app.engine('ejs', ejsMate);
@@ -66,16 +64,23 @@ app.use(async (req, res, next) => {
     res.locals.error = req.flash("error");
     res.locals.success = req.flash("success");
 
+    if(process.env.RAZORPAY_KEY_ID){
+        res.locals.keyId = process.env.RAZORPAY_KEY_ID;
+    }
+
     if (res.locals.currUser) {
-        if(req.session.user.role === "buyer"){
+        if (req.session.user.role === "buyer") {
             let buyer = await Buyer.findById(req.session.user._id).populate("cart").populate("wishlist");
-        if (buyer.cart || buyer.wishlist) {
-            res.locals.cartItems = buyer.cart.items.length;
-            res.locals.wishlistItems = buyer.wishlist.items.length;
-        } else {
-            res.locals.cartItems = 0;
-            res.locals.wishlistItems = 0;
-        }
+            if (buyer.cart) {
+                res.locals.cartItems = buyer.cart.items.length;
+            }else{
+                res.locals.cartItems = 0;
+            }
+            if (buyer.wishlist) {
+                res.locals.wishlistItems = buyer.wishlist.items.length;
+            } else {
+                res.locals.wishlistItems = 0;
+            }
         }
     }
 
@@ -100,6 +105,9 @@ app.get("/", (req, res) => {
 //     return next(new ExpressError("Wrong API Key" , 401))
 // })
 
+// User Payment
+app.use("/api/payment/" , paymentRoutes)
+
 // Admin Routes
 app.use("/api/admin/", adminRoutes);
 
@@ -118,6 +126,8 @@ app.use("/api/user/", userAccountRoutes);
 app.use("/api/addresses/", addressRoutes);
 app.use("/api/wishlist/", wishlistRoutes);
 app.use("/api/cart/", cartRoutes);
+
+
 
 app.use((req, res, next) => {
     next(new ExpressError("Page Not Found", 404))

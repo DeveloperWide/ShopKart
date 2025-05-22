@@ -1,42 +1,44 @@
 const Product = require("../models/Product");
 const { User } = require("../models/User");
-const products = require("./data")
+const products = require("./data");
+const dotenv = require("dotenv");
 const mongoose = require("mongoose");
 
-// Connect to db
+dotenv.config({ path: "../.env" });
+
+const dbUrl = process.env.MONGODB_ATLAS_URI;
+
+// Connect to DB
 main().then(() => {
-  console.log(`Connected To DB`)
+  console.log("Connected To DB");
+  addData(); // call after DB connection
 }).catch(err => console.log(err));
 
 async function main() {
-  await mongoose.connect('mongodb://127.0.0.1:27017/shopkart');
+  await mongoose.connect(dbUrl);
 }
 
 async function addData() {
   try {
-    let id = '68222d52ce142d6f91d53d19'; // User ID
-    let user = await User.findById(id); // Find the user by ID
+    const id = '682f38ea8b1f852e996f83bb'; // User ID
+    const user = await User.findById(id);
+
     if (!user) {
       console.log("User not found!");
       return;
     }
 
-    let products = await Product.find({}); // Get all products
+    const allProducts = await Product.find({});
+    const updatedProducts = [];
 
-    // Get all product IDs
-    let alProIds = products.map((obj) => obj._id.toString());
+    for (let product of allProducts) {
+      product.owner = user._id;
+      const saved = await product.save();
+      updatedProducts.push(saved);
+    }
 
-    // Ensure we don't have duplicate product IDs in user.products
-    let uniqueProductIds = [...new Set([...user.products, ...alProIds])];
-
-    // Update user's products
-    user.products = uniqueProductIds;
-
-    let svdUser = await user.save(); // Save updated user document
-    console.log("User updated:", svdUser);
+    console.log("Products updated:", updatedProducts.length);
   } catch (err) {
-    console.error("Error updating user data:", err);
+    console.error("Error updating products:", err);
   }
 }
-
-addData();

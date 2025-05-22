@@ -1,7 +1,6 @@
 const productImg = document.querySelector(".productImg");
 const images = document.querySelectorAll(".isCheck");
-
-
+const payButton = document.querySelector(".payNow")
 
 if (images) {
     images.forEach(image => {
@@ -10,6 +9,7 @@ if (images) {
         });
     });
 }
+
 
 const shippingDate = document.querySelectorAll(".shippingDate");
 if (shippingDate) {
@@ -57,10 +57,10 @@ let getBackgroundImg = (text, category) => {
         .catch((err) => console.error(err));
 };
 
-if(categories){
+if (categories) {
     categories.forEach((category) => {
-    let categoryName = category.innerText.trim();
-    getBackgroundImg(categoryName, category);
-});
+        let categoryName = category.innerText.trim();
+        getBackgroundImg(categoryName, category);
+    });
 
 }
